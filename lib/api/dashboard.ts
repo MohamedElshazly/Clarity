@@ -148,6 +148,28 @@ export async function getMostCommonDistortion(
 }
 
 /**
+ * Get thought records for a user filtered by distortion slug
+ */
+export async function getRecordsByDistortion(
+	userId: string,
+	distortionSlug: string,
+	limit = 10,
+): Promise<ThoughtRecord[]> {
+	const supabase = createClient();
+	const { data, error } = await supabase
+		.from("thought_records")
+		.select("*")
+		.eq("user_id", userId)
+		.eq("distortion_slug", distortionSlug)
+		.eq("is_draft", false)
+		.order("created_at", { ascending: false })
+		.limit(limit);
+
+	if (error) throw error;
+	return data ?? [];
+}
+
+/**
  * Get dashboard stats for a user
  */
 export async function getDashboardStats(userId: string) {

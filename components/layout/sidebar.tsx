@@ -103,7 +103,7 @@ export function Sidebar({ profile }: { profile: Profile | null }) {
 					className="clarity-btn-primary flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium mb-2"
 				>
 					<Plus size={15} />
-					Start New Session
+					Add new record
 				</Link>
 
 				{/* User info */}
