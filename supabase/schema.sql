@@ -60,6 +60,7 @@ create table if not exists public.thought_records (
 
   -- Step 4 — Distortion
   distortion_slug    text,
+  distortion_slugs   text[]      not null default '{}',
 
   -- Step 5 — Evidence
   evidence_for       text,

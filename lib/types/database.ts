@@ -11,6 +11,7 @@ export type EmotionEntry = {
   id: string;
   label: string;
   intensity_before: number; // 0–100
+  intensity_after?: number | null; // 0–100 (outcome rating)
 };
 
 // ─── Outcome ratings stored in thought_records.outcome_ratings ───────────────
@@ -68,6 +69,7 @@ export type Database = {
           emotions: EmotionEntry[];
           automatic_thought: string;
           distortion_slug: string | null;
+          distortion_slugs: string[];
           evidence_for: string | null;
           evidence_against: string | null;
           balanced_thought: string | null;
@@ -86,6 +88,7 @@ export type Database = {
           emotions: EmotionEntry[];
           automatic_thought: string;
           distortion_slug?: string | null;
+          distortion_slugs?: string[];
           evidence_for?: string | null;
           evidence_against?: string | null;
           balanced_thought?: string | null;
@@ -104,6 +107,7 @@ export type Database = {
           emotions?: EmotionEntry[];
           automatic_thought?: string;
           distortion_slug?: string | null;
+          distortion_slugs?: string[];
           evidence_for?: string | null;
           evidence_against?: string | null;
           balanced_thought?: string | null;

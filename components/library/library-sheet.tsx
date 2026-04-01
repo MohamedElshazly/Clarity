@@ -45,7 +45,7 @@ export function LibrarySheet({
 		<Sheet open={open} onOpenChange={onClose}>
 			<SheetContent
 				side="right"
-				className="w-full sm:max-w-150 overflow-y-auto"
+				className="w-full sm:max-w-150 overflow-y-auto px-10"
 				style={{ backgroundColor: "var(--surface-container)" }}
 			>
 				<SheetHeader>
@@ -136,7 +136,7 @@ function DistortionSheetCard({
 		<button
 			type="button"
 			onClick={handleClick}
-			className="clarity-card p-5 text-left transition-all duration-200 group w-full"
+			className="clarity-card p-5 text-left transition-all duration-200 group w-full cursor-pointer"
 			style={{
 				backgroundColor: "var(--surface-container-high)",
 			}}
