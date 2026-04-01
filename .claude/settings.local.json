@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"app/\\(app\\)/record/new\" \"app/\\(app\\)/records/[id]\" \"app/\\(app\\)/library/[slug]\" \"app/\\(app\\)/insights\")",
+      "Bash(mv \"app/records/[id]/page.tsx\" \"app/\\(app\\)/records/[id]/page.tsx\")",
+      "Bash(mv \"app/library/[slug]/page.tsx\" \"app/\\(app\\)/library/[slug]/page.tsx\")",
+      "Bash(rmdir app/record/new app/record \"app/records/[id]\" app/records \"app/library/[slug]\" app/library app/insights)",
+      "Bash(npx tsc:*)",
+      "Bash(ls \"app/\\(app\\)/\")"
+    ]
+  }
+}
