@@ -53,5 +53,18 @@ export const quotes: Quote[] = [
 ];
 
 export function getRandomQuote(): Quote {
-  return quotes[Math.floor(Math.random() * quotes.length)];
+	return quotes[Math.floor(Math.random() * quotes.length)];
+}
+
+/**
+ * Get daily quote that rotates based on day of year
+ */
+export function getDailyQuote(): Quote {
+	const now = new Date();
+	const start = new Date(now.getFullYear(), 0, 0);
+	const diff = now.getTime() - start.getTime();
+	const oneDay = 1000 * 60 * 60 * 24;
+	const dayOfYear = Math.floor(diff / oneDay);
+
+	return quotes[dayOfYear % quotes.length];
 }

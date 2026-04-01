@@ -1,25 +1,34 @@
+"use client";
+
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { useUserWithProfile } from "@/hooks/use-user";
+import { Loader2 } from "lucide-react";
 
-export default async function AppLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+	const { data: userWithProfile, isLoading } = useUserWithProfile();
 
-	if (!user) redirect("/login");
+	if (isLoading) {
+		return (
+			<div
+				className="min-h-screen flex items-center justify-center"
+				style={{ backgroundColor: "var(--surface)" }}
+			>
+				<Loader2
+					className="animate-spin"
+					size={32}
+					style={{ color: "var(--ms-primary)" }}
+				/>
+			</div>
+		);
+	}
 
-	const { data: profile } = await supabase
-		.from("profiles")
-		.select("*")
-		.eq("id", user.id)
-		.single();
+	if (!userWithProfile) {
+		redirect("/login");
+	}
+
+	const profile = userWithProfile.profile;
 
 	return (
 		<div style={{ backgroundColor: "var(--surface)" }}>
