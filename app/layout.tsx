@@ -31,7 +31,20 @@ export default function RootLayout({
 		<html
 			lang="en"
 			className={`${notoSerif.variable} ${plusJakarta.variable} h-full antialiased`}
+			suppressHydrationWarning
 		>
+			<head>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+							(function() {
+								const theme = localStorage.getItem('clarity-theme') || 'dark';
+								document.documentElement.classList.add(theme);
+							})();
+						`,
+					}}
+				/>
+			</head>
 			<body className="min-h-full">
 				<ThemeProvider>
 					<QueryProvider>{children}</QueryProvider>

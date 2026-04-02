@@ -12,46 +12,21 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-	const [theme, setTheme] = useState<Theme>("dark");
-	const [mounted, setMounted] = useState(false);
-
-	useEffect(() => {
-		const stored = localStorage.getItem("clarity-theme") as Theme | null;
-		const initialTheme = stored === "light" || stored === "dark" ? stored : "dark";
-		setTheme(initialTheme);
-		document.documentElement.classList.toggle("dark", initialTheme === "dark");
-		setMounted(true);
-	}, []);
+	const [theme, setTheme] = useState<Theme>(() => {
+		if (typeof window !== "undefined") {
+			const stored = localStorage.getItem("clarity-theme") as Theme | null;
+			return stored === "light" || stored === "dark" ? stored : "dark";
+		}
+		return "dark";
+	});
 
 	const toggleTheme = () => {
 		const newTheme = theme === "dark" ? "light" : "dark";
 		setTheme(newTheme);
 		localStorage.setItem("clarity-theme", newTheme);
-		document.documentElement.classList.toggle("dark", newTheme === "dark");
+		document.documentElement.classList.remove("dark", "light");
+		document.documentElement.classList.add(newTheme);
 	};
-
-	// Prevent flash of wrong theme
-	if (!mounted) {
-		return (
-			<>
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `
-							(function() {
-								const theme = localStorage.getItem('clarity-theme') || 'dark';
-								if (theme === 'dark') {
-									document.documentElement.classList.add('dark');
-								} else {
-									document.documentElement.classList.remove('dark');
-								}
-							})();
-						`,
-					}}
-				/>
-				{children}
-			</>
-		);
-	}
 
 	return (
 		<ThemeContext.Provider value={{ theme, toggleTheme }}>
