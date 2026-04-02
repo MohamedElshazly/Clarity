@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { RecordView } from "@/components/record/record-view";
 import { RecordEdit } from "@/components/record/record-edit";
+import { RecordDetailSkeleton } from "@/components/skeletons/record-detail-skeleton";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -42,16 +43,8 @@ export function RecordDetailClient({ recordId }: RecordDetailClientProps) {
 		}
 	};
 
-	// Loading state
-	if (isLoading) {
-		return (
-			<main className="max-w-4xl mx-auto px-6 py-12">
-				<div className="text-base italic" style={{ color: "var(--tertiary)" }}>
-					Loading reflection...
-				</div>
-			</main>
-		);
-	}
+	// Show skeleton during loading
+	if (isLoading) return <RecordDetailSkeleton />;
 
 	// Not found or unauthorized
 	if (!record || record.user_id !== user?.id) {

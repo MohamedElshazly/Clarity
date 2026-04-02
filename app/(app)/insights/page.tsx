@@ -6,6 +6,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetInsightsData } from "@/hooks/use-insights";
 import { quotes } from "@/lib/data/quotes";
 import type { Period } from "@/lib/api/insights";
+import { InsightsSkeleton } from "@/components/skeletons/insights-skeleton";
 
 export default function InsightsPage() {
 	const [period, setPeriod] = useState<Period>("monthly");
@@ -14,8 +15,8 @@ export default function InsightsPage() {
 	// Get a different quote than the dashboard (offset by 1)
 	const insightsQuote = quotes[1 % quotes.length];
 
-	// Return null during initial load - loading.tsx will handle the skeleton
-	if (isLoading) return null;
+	// Show loading skeleton during data fetch
+	if (isLoading) return <InsightsSkeleton />;
 
 	if (!insights) return null;
 

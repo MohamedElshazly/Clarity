@@ -14,6 +14,7 @@ import { emotions } from "@/lib/data/emotions";
 import { distortions } from "@/lib/data/distortions";
 import type { ThoughtRecord } from "@/lib/types/database";
 import { subDays, isAfter } from "date-fns";
+import { RecordsSkeleton } from "@/components/skeletons/records-skeleton";
 
 export default function RecordsPage() {
 	const { data: records, isLoading } = useUserRecords();
@@ -68,8 +69,8 @@ export default function RecordsPage() {
 		return filtered;
 	}, [records, selectedEmotion, selectedDistortion, selectedTimeframe]);
 
-	// Return null during initial load - loading.tsx will handle the skeleton
-	if (isLoading) return null;
+	// Show loading skeleton during data fetch
+	if (isLoading) return <RecordsSkeleton />;
 
 	return (
 		<main className="max-w-5xl mx-auto px-6 py-12">

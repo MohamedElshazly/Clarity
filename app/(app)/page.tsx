@@ -20,6 +20,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { useUserWithProfile } from "@/hooks/use-user";
 import { useGetDashboardStats } from "@/hooks/use-dashboard";
+import { DashboardSkeleton } from "@/components/skeletons/dashboard-skeleton";
 
 export default function DashboardPage() {
 	const { data: userWithProfile, isLoading: isLoadingUser } =
@@ -29,8 +30,8 @@ export default function DashboardPage() {
 	// Redirect to login if not authenticated (handled by layout)
 	if (!userWithProfile) return null;
 
-	// Show loading skeleton from loading.tsx during data fetch
-	if (isLoadingUser || isLoadingStats) return null;
+	// Show loading skeleton during data fetch
+	if (isLoadingUser || isLoadingStats) return <DashboardSkeleton />;
 
 	const profile = userWithProfile.profile;
 	const firstName = profile?.full_name?.split(" ")[0] ?? "friend";

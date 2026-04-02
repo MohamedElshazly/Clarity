@@ -3,10 +3,11 @@
 import { getDistortionBySlug } from "@/lib/data/distortions";
 import { notFound, useParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { formatShortDate, formatTime } from "@/lib/utils";
 import { useGetRecordsByDistortion } from "@/hooks/use-dashboard";
+import { DistortionDetailSkeleton } from "@/components/skeletons/distortion-detail-skeleton";
 
 export default function DistortionPage() {
 	const params = useParams();
@@ -16,6 +17,9 @@ export default function DistortionPage() {
 	const { data: relatedRecords, isLoading } = useGetRecordsByDistortion(slug);
 
 	if (!distortion) notFound();
+
+	// Show skeleton during loading
+	if (isLoading) return <DistortionDetailSkeleton />;
 
 	// Dynamically get the icon component
 	const IconComponent = (
@@ -125,18 +129,7 @@ export default function DistortionPage() {
 					Records using this pattern
 				</h2>
 
-				{isLoading ? (
-					<div
-						className="clarity-card p-8 flex items-center justify-center"
-						style={{ backgroundColor: "var(--surface-container-high)" }}
-					>
-						<Loader2
-							className="animate-spin"
-							size={24}
-							style={{ color: "var(--ms-primary)" }}
-						/>
-					</div>
-				) : !relatedRecords || relatedRecords.length === 0 ? (
+				{!relatedRecords || relatedRecords.length === 0 ? (
 					<div
 						className="clarity-card p-8 text-center"
 						style={{ backgroundColor: "var(--surface-container-high)" }}
