@@ -77,6 +77,7 @@ export async function submitRecord(
       .update({
         ...data,
         is_draft: false,
+        metadata: null,
         updated_at: new Date().toISOString(),
       })
       .eq("id", recordId)
@@ -93,6 +94,7 @@ export async function submitRecord(
         ...data,
         user_id: userId,
         is_draft: false,
+        metadata: null,
       })
       .select()
       .single();
@@ -185,6 +187,41 @@ export async function updateRecord(
  * Delete a record
  */
 export async function deleteRecord(id: string): Promise<void> {
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("thought_records")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw error;
+}
+
+/**
+ * Get the most recent active draft for a user
+ */
+export async function getActiveDraft(
+  userId: string
+): Promise<ThoughtRecord | null> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("thought_records")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("is_draft", true)
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Discard a draft by deleting it
+ */
+export async function discardDraft(id: string): Promise<void> {
   const supabase = createClient();
 
   const { error } = await supabase

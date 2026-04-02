@@ -8,6 +8,8 @@ import {
   getRecordById,
   updateRecord,
   deleteRecord,
+  getActiveDraft,
+  discardDraft,
 } from "@/lib/api/records";
 import { useUser } from "./use-user";
 import type {
@@ -56,6 +58,7 @@ export function useUpdateDraft() {
  */
 export function useSubmitRecord() {
   const queryClient = useQueryClient();
+  const { data: user } = useUser();
 
   return useMutation({
     mutationFn: ({
@@ -71,6 +74,7 @@ export function useSubmitRecord() {
       // Invalidate all record-related queries
       queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
       queryClient.invalidateQueries({ queryKey: ["records"] });
+      queryClient.invalidateQueries({ queryKey: ["active-draft", user?.id] });
     },
   });
 }
@@ -146,6 +150,35 @@ export function useDeleteRecord() {
       // Invalidate all record-related queries
       queryClient.invalidateQueries({ queryKey: ["records"] });
       queryClient.invalidateQueries({ queryKey: ["dashboard-stats"] });
+    },
+  });
+}
+
+/**
+ * Hook to get the active draft for current user
+ */
+export function useGetActiveDraft() {
+  const { data: user } = useUser();
+
+  return useQuery({
+    queryKey: ["active-draft", user?.id],
+    queryFn: () => getActiveDraft(user!.id),
+    enabled: !!user?.id,
+    staleTime: 0,
+  });
+}
+
+/**
+ * Hook to discard a draft
+ */
+export function useDiscardDraft() {
+  const queryClient = useQueryClient();
+  const { data: user } = useUser();
+
+  return useMutation({
+    mutationFn: (id: string) => discardDraft(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["active-draft", user?.id] });
     },
   });
 }

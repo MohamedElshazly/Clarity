@@ -77,6 +77,7 @@ export type Database = {
           outcome_ratings: OutcomeRatings | null;
           reflection: string | null;
           is_draft: boolean;
+          metadata: Json | null;
           created_at: string;
           updated_at: string;
         };
@@ -96,6 +97,7 @@ export type Database = {
           outcome_ratings?: OutcomeRatings | null;
           reflection?: string | null;
           is_draft?: boolean;
+          metadata?: Json | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -115,6 +117,7 @@ export type Database = {
           outcome_ratings?: OutcomeRatings | null;
           reflection?: string | null;
           is_draft?: boolean;
+          metadata?: Json | null;
           created_at?: string;
           updated_at?: string;
         };

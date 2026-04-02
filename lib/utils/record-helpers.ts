@@ -60,7 +60,8 @@ export const recordFormDefaultValues: RecordFormValues = {
  * Transform form values to database record format
  */
 export function transformFormToRecord(
-  formValues: Partial<RecordFormValues>
+  formValues: Partial<RecordFormValues>,
+  currentStep?: number
 ): Partial<ThoughtRecordInsert> {
   // Transform emotions to database format
   const emotions: EmotionEntry[] = (formValues.selectedEmotions || []).map(
@@ -84,6 +85,7 @@ export function transformFormToRecord(
     confidence_level: formValues.confidenceLevel || null,
     outcome_ratings: null, // Deprecated - now using intensity_after in emotions
     reflection: formValues.reflection || null,
+    metadata: currentStep ? { currentStep } : null,
   };
 }
 
