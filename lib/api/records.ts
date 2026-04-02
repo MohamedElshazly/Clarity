@@ -120,3 +120,77 @@ export async function getDraftRecord(
   if (error) return null;
   return data;
 }
+
+/**
+ * Get all records for a user (non-draft only)
+ */
+export async function getUserRecords(
+  userId: string
+): Promise<ThoughtRecord[]> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("thought_records")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("is_draft", false)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data || [];
+}
+
+/**
+ * Get a single record by ID
+ */
+export async function getRecordById(
+  id: string
+): Promise<ThoughtRecord | null> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("thought_records")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) return null;
+  return data;
+}
+
+/**
+ * Update a record
+ */
+export async function updateRecord(
+  id: string,
+  data: Partial<ThoughtRecordUpdate>
+): Promise<ThoughtRecord> {
+  const supabase = createClient();
+
+  const { data: record, error } = await supabase
+    .from("thought_records")
+    .update({
+      ...data,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return record;
+}
+
+/**
+ * Delete a record
+ */
+export async function deleteRecord(id: string): Promise<void> {
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("thought_records")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw error;
+}
