@@ -151,7 +151,7 @@ export function Sidebar({ profile }: { profile: Profile | null }) {
 				<button
 					type="button"
 					onClick={toggleTheme}
-					className="flex items-center gap-2.5 px-2 py-1.5 text-xs w-full text-left rounded-sm transition-all duration-300"
+					className="flex items-center gap-2.5 px-2 py-1.5 text-xs w-full text-left rounded-sm transition-all duration-300 hover:cursor-pointer"
 					onMouseEnter={(e) => {
 						e.currentTarget.style.backgroundColor = "var(--surface-container-high)";
 					}}
@@ -168,7 +168,7 @@ export function Sidebar({ profile }: { profile: Profile | null }) {
 				<button
 					type="button"
 					onClick={handleLogout}
-					className="flex items-center gap-2.5 px-2 py-1.5 text-xs w-full text-left rounded-sm transition-all duration-300"
+					className="flex items-center gap-2.5 px-2 py-1.5 text-xs w-full text-left rounded-sm transition-all duration-300 hover:cursor-pointer"
 					onMouseEnter={(e) => {
 						e.currentTarget.style.backgroundColor = "var(--surface-container-high)";
 					}}

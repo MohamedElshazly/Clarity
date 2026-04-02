@@ -12,6 +12,7 @@ import {
 	SheetDescription,
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
+import { startCase } from "lodash";
 
 interface LibrarySheetProps {
 	open: boolean;
@@ -165,7 +166,7 @@ function DistortionSheetCard({
 				className="font-serif text-lg font-semibold mb-2"
 				style={{ color: "var(--on-surface)" }}
 			>
-				{distortion.name}
+				{startCase(distortion.name)}
 			</h3>
 
 			{/* Definition (truncated) */}

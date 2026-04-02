@@ -15,6 +15,7 @@ import { distortions } from "@/lib/data/distortions";
 import type { ThoughtRecord } from "@/lib/types/database";
 import { subDays, isAfter } from "date-fns";
 import { RecordsSkeleton } from "@/components/skeletons/records-skeleton";
+import { startCase } from "lodash";
 
 export default function RecordsPage() {
 	const { data: records, isLoading } = useUserRecords();
@@ -112,13 +113,17 @@ export default function RecordsPage() {
 								color: "var(--on-surface)",
 							}}
 						>
-							<SelectValue placeholder="All Emotions" />
+							<SelectValue placeholder="All Emotions">
+								{selectedEmotion === "all"
+									? "All Emotions"
+									: startCase(emotions.find((e) => e.id === selectedEmotion)?.label || "")}
+							</SelectValue>
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="all">All Emotions</SelectItem>
 							{emotions.map((emotion) => (
 								<SelectItem key={emotion.id} value={emotion.id}>
-									{emotion.label}
+									{startCase(emotion.label)}
 								</SelectItem>
 							))}
 						</SelectContent>
@@ -144,13 +149,17 @@ export default function RecordsPage() {
 								color: "var(--on-surface)",
 							}}
 						>
-							<SelectValue placeholder="All Distortions" />
+							<SelectValue placeholder="All Distortions">
+								{selectedDistortion === "all"
+									? "All Distortions"
+									: startCase(distortions.find((d) => d.slug === selectedDistortion)?.name || "")}
+							</SelectValue>
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="all">All Distortions</SelectItem>
 							{distortions.map((distortion) => (
 								<SelectItem key={distortion.slug} value={distortion.slug}>
-									{distortion.name}
+									{startCase(distortion.name)}
 								</SelectItem>
 							))}
 						</SelectContent>
@@ -176,7 +185,12 @@ export default function RecordsPage() {
 								color: "var(--on-surface)",
 							}}
 						>
-							<SelectValue placeholder="All Time" />
+							<SelectValue placeholder="All Time">
+								{selectedTimeframe === "all" && "All Time"}
+								{selectedTimeframe === "7" && "Last 7 Days"}
+								{selectedTimeframe === "30" && "Last 30 Days"}
+								{selectedTimeframe === "90" && "Last 90 Days"}
+							</SelectValue>
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="all">All Time</SelectItem>

@@ -15,6 +15,7 @@ import { LibrarySheet } from "@/components/library/library-sheet";
 import { distortions, getDistortionBySlug } from "@/lib/data/distortions";
 import { BookOpen, X } from "lucide-react";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
+import { startCase } from "lodash";
 
 interface StepProps {
 	form: UseFormReturn<RecordFormValues>;
@@ -114,7 +115,7 @@ export function Step3AutomaticThoughts({ form, formValues }: StepProps) {
 								<SelectContent>
 									{availableDistortions.map((d) => (
 										<SelectItem key={d.slug} value={d.slug}>
-											{d.name}
+											{startCase(d.name)}
 										</SelectItem>
 									))}
 								</SelectContent>
@@ -161,7 +162,7 @@ export function Step3AutomaticThoughts({ form, formValues }: StepProps) {
 												className="text-sm font-semibold"
 												style={{ color: "var(--ms-primary)" }}
 											>
-												{distortion.name}
+												{startCase(distortion.name)}
 											</h4>
 											<button
 												type="button"
