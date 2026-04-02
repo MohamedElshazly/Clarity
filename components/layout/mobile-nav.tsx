@@ -11,6 +11,7 @@ import {
 	TrendingUp,
 	Plus,
 	Moon,
+	Sun,
 	LogOut,
 	Menu,
 } from "lucide-react";
@@ -21,6 +22,7 @@ import {
 	SheetContent,
 } from "@/components/ui/sheet";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useTheme } from "@/components/providers/theme-provider";
 import type { Profile } from "@/lib/types/database";
 
 const navItems = [
@@ -35,6 +37,7 @@ export function MobileNav({ profile }: { profile: Profile | null }) {
 	const [open, setOpen] = useState(false);
 	const pathname = usePathname();
 	const router = useRouter();
+	const { theme, toggleTheme } = useTheme();
 
 	async function handleLogout() {
 		const supabase = createClient();
@@ -161,11 +164,12 @@ export function MobileNav({ profile }: { profile: Profile | null }) {
 
 					<button
 						type="button"
+						onClick={toggleTheme}
 						className="flex items-center gap-2.5 px-2 py-1.5 text-xs w-full text-left rounded-sm transition-opacity hover:opacity-70"
 						style={{ color: "var(--tertiary)" }}
 					>
-						<Moon size={14} />
-						Theme Mode
+						{theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+						{theme === "dark" ? "Light Mode" : "Dark Mode"}
 					</button>
 
 					<button
