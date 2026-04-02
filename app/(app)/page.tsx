@@ -47,7 +47,7 @@ export default function DashboardPage() {
 		<main className="max-w-5xl mx-auto">
 			{/* Section 1: Greeting */}
 			<section className="mb-12">
-				<div className="flex items-start justify-between gap-6">
+				<div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
 					<div className="flex-1">
 						<p
 							className="text-xs font-medium tracking-widest mb-3"
@@ -72,7 +72,7 @@ export default function DashboardPage() {
 
 					<Link
 						href="/record/new"
-						className="clarity-btn-primary flex items-center gap-2 px-6 py-3 text-sm font-medium whitespace-nowrap mt-8 hover:opacity-90 transition-opacity"
+						className="clarity-btn-primary flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium whitespace-nowrap md:mt-8 hover:opacity-90 transition-opacity"
 					>
 						<PenLine size={16} />
 						New Thought Record
