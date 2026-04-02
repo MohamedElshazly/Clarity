@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Serif, Plus_Jakarta_Sans } from "next/font/google";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import "./globals.css";
 
 const notoSerif = Noto_Serif({
@@ -29,10 +30,12 @@ export default function RootLayout({
 	return (
 		<html
 			lang="en"
-			className={`dark ${notoSerif.variable} ${plusJakarta.variable} h-full antialiased`}
+			className={`${notoSerif.variable} ${plusJakarta.variable} h-full antialiased`}
 		>
 			<body className="min-h-full">
-				<QueryProvider>{children}</QueryProvider>
+				<ThemeProvider>
+					<QueryProvider>{children}</QueryProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

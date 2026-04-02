@@ -3,52 +3,149 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── Midnight Studio Design Tokens ─────────────────────────────────── */
+/* ─── Tactile Sanctuary: Light Theme ────────────────────────────────── */
 :root {
-  --surface: #0f1413;
-  --surface-container-low: #181d1b;
-  --surface-container: #1c211f;
-  --surface-container-high: #262b29;
-  --surface-container-highest: #313634;
-  --ms-primary: #ffb4a4;
-  --primary-container: #a65d4d;
-  --on-primary-container: #fff4f2;
-  --ms-secondary: #b9cbc2;
-  --secondary-container: #3a4d45;
-  --tertiary: #cac6c1;
-  --on-surface: #dfe4e0;
-  --outline-variant: #53433f;
+  /* Editorial Surface Hierarchy */
+  --surface: #effdf5;
+  --surface-bright: #f6fef9;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f9fcfa;
+  --surface-container: #f3f9f5;
+  --surface-container-high: #edf6f0;
+  --surface-container-highest: #e7f0eb;
 
-  /* shadcn/ui variable mapping — always dark */
-  --background: #0f1413;
-  --foreground: #dfe4e0;
-  --card: #262b29;
-  --card-foreground: #dfe4e0;
-  --popover: #262b29;
-  --popover-foreground: #dfe4e0;
-  --primary: #a65d4d;
-  --primary-foreground: #fff4f2;
-  --secondary: #3a4d45;
-  --secondary-foreground: #dfe4e0;
-  --muted: #313634;
-  --muted-foreground: #cac6c1;
-  --accent: #313634;
-  --accent-foreground: #dfe4e0;
-  --destructive: #cf6679;
+  /* Core Palette */
+  --primary: #C5705D;
+  --primary-container: #f4d5cd;
+  --on-primary: #ffffff;
+  --on-primary-container: #3d1f17;
+
+  --secondary: #8A9E95;
+  --secondary-container: #e3ebe7;
+  --secondary-fixed: #d0dcd6;
+  --on-secondary: #ffffff;
+  --on-secondary-container: #1f2d28;
+
+  --tertiary: #8b7a6f;
+  --tertiary-container: #f5ebe6;
+  --on-tertiary: #2E3A35;
+
+  /* Semantic Tokens */
+  --on-surface: #121e1a;
+  --on-surface-variant: #4a5650;
+  --outline: rgba(74, 86, 80, 0.15);
+  --outline-variant: rgba(74, 86, 80, 0.08);
+
+  /* Interaction States */
+  --primary-fixed: #eab8ad;
+  --primary-hover: #af5f4d;
+  --surface-tint: rgba(197, 112, 93, 0.05);
+
+  /* shadcn/ui mapping */
+  --background: #effdf5;
+  --foreground: #121e1a;
+  --card: #f3f9f5;
+  --card-foreground: #121e1a;
+  --popover: rgba(255, 255, 255, 0.8);
+  --popover-foreground: #121e1a;
+  --primary-foreground: #ffffff;
+  --secondary-foreground: #ffffff;
+  --muted: #e7f0eb;
+  --muted-foreground: #4a5650;
+  --accent: #f3f9f5;
+  --accent-foreground: #121e1a;
+  --destructive: #ba3c3c;
+  --destructive-foreground: #ffffff;
   --border: transparent;
   --input: transparent;
-  --ring: #a65d4d;
+  --ring: #C5705D;
   --radius: 0.5rem;
 
-  /* Sidebar tokens */
-  --sidebar: #181d1b;
-  --sidebar-foreground: #dfe4e0;
-  --sidebar-primary: #a65d4d;
-  --sidebar-primary-foreground: #fff4f2;
-  --sidebar-accent: #262b29;
-  --sidebar-accent-foreground: #dfe4e0;
+  /* Sidebar */
+  --sidebar: #f9fcfa;
+  --sidebar-foreground: #121e1a;
+  --sidebar-primary: #C5705D;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f9f5;
+  --sidebar-accent-foreground: #121e1a;
   --sidebar-border: transparent;
-  --sidebar-ring: #a65d4d;
+  --sidebar-ring: #C5705D;
+
+  /* Neutral */
+  --ms-primary: #C5705D;
+  --ms-secondary: #8A9E95;
+}
+
+/* ─── Tactile Sanctuary: Dark Theme ─────────────────────────────────── */
+.dark {
+  /* Editorial Surface Hierarchy - Warm Dark Tones */
+  --surface: #1a211e;
+  --surface-bright: #242c28;
+  --surface-container-lowest: #0f1513;
+  --surface-container-low: #1f2624;
+  --surface-container: #232b27;
+  --surface-container-high: #2d3530;
+  --surface-container-highest: #383f3b;
+
+  /* Core Palette - Adjusted for Dark Mode */
+  --primary: #e8a291;
+  --primary-container: #904636;
+  --on-primary: #2d1410;
+  --on-primary-container: #ffeee9;
+
+  --secondary: #a8c4b8;
+  --secondary-container: #50625b;
+  --secondary-fixed: #6d8379;
+  --on-secondary: #1a2823;
+  --on-secondary-container: #e8f2ed;
+
+  --tertiary: #d4c4b9;
+  --tertiary-container: #5a4d45;
+  --on-tertiary: #1f1a17;
+
+  /* Semantic Tokens */
+  --on-surface: #e4ebe7;
+  --on-surface-variant: #bfc9c3;
+  --outline: rgba(191, 201, 195, 0.15);
+  --outline-variant: rgba(191, 201, 195, 0.08);
+
+  /* Interaction States */
+  --primary-fixed: #d88978;
+  --primary-hover: #f2b5a6;
+  --surface-tint: rgba(232, 162, 145, 0.08);
+
+  /* shadcn/ui mapping */
+  --background: #1a211e;
+  --foreground: #e4ebe7;
+  --card: #232b27;
+  --card-foreground: #e4ebe7;
+  --popover: rgba(35, 43, 39, 0.8);
+  --popover-foreground: #e4ebe7;
+  --primary-foreground: #2d1410;
+  --secondary-foreground: #1a2823;
+  --muted: #2d3530;
+  --muted-foreground: #bfc9c3;
+  --accent: #2d3530;
+  --accent-foreground: #e4ebe7;
+  --destructive: #cf6679;
+  --destructive-foreground: #ffffff;
+  --border: transparent;
+  --input: transparent;
+  --ring: #e8a291;
+
+  /* Sidebar */
+  --sidebar: #1f2624;
+  --sidebar-foreground: #e4ebe7;
+  --sidebar-primary: #e8a291;
+  --sidebar-primary-foreground: #2d1410;
+  --sidebar-accent: #232b27;
+  --sidebar-accent-foreground: #e4ebe7;
+  --sidebar-border: transparent;
+  --sidebar-ring: #e8a291;
+
+  /* Neutral */
+  --ms-primary: #e8a291;
+  --ms-secondary: #a8c4b8;
 }
 
 /* ─── Tailwind v4 theme bridge ───────────────────────────────────────── */
@@ -100,7 +197,15 @@
 
   html {
     background-color: var(--surface);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  html.dark {
     color-scheme: dark;
+  }
+
+  html:not(.dark) {
+    color-scheme: light;
   }
 
   body {
@@ -109,6 +214,7 @@
     font-family: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   h1, h2, h3, .font-serif {
@@ -116,52 +222,134 @@
   }
 }
 
-/* ─── Component utilities ────────────────────────────────────────────── */
+/* ─── Tactile Sanctuary Component Utilities ─────────────────────────── */
 @layer components {
-  /* Card: surface-container-high bg, 0.5rem radius, atmospheric shadow */
+  /* Card: No hard borders, atmospheric depth */
   .clarity-card {
-    background-color: var(--surface-container-high);
+    background-color: var(--surface-container-lowest);
     border-radius: 0.5rem;
-    box-shadow: 0 0 48px 0 rgb(0 0 0 / 0.04);
+    box-shadow:
+      0 0 0 1px var(--outline-variant),
+      0 8px 24px -4px rgba(18, 30, 26, 0.04),
+      0 24px 48px -12px rgba(18, 30, 26, 0.03);
+    transition: all 0.3s ease-out;
   }
 
-  /* Input: transparent unfocused → surface-container-low focused, bottom border only */
+  .clarity-card:hover {
+    background-color: var(--surface-bright);
+    box-shadow:
+      0 0 0 1px var(--outline-variant),
+      0 12px 32px -4px rgba(18, 30, 26, 0.06),
+      0 32px 64px -12px rgba(18, 30, 26, 0.04);
+  }
+
+  /* Input: Ghost border philosophy */
   .clarity-input {
     background: transparent;
     border: none;
-    border-bottom: 2px solid var(--outline-variant);
+    border-bottom: 2px solid var(--outline);
     border-radius: 0;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
+    transition: all 0.3s ease-out;
     padding: 0.5rem 0;
-  }
-  .clarity-input:focus {
-    background-color: var(--surface-container-low);
-    border-bottom-color: var(--primary-container);
-    outline: none;
+    color: var(--on-surface);
   }
 
-  /* Primary pill button */
+  .clarity-input:focus {
+    background-color: var(--surface-bright);
+    border-bottom-color: var(--primary);
+    outline: none;
+    box-shadow: 0 4px 12px -2px var(--surface-tint);
+  }
+
+  /* Primary button: Editorial authority with subtle gradient */
   .clarity-btn-primary {
-    background-color: var(--primary-container);
-    color: var(--on-primary-container);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+    color: var(--on-primary);
     border-radius: 9999px;
     border: none;
+    font-weight: 600;
+    transition: all 0.3s ease-out;
+    box-shadow:
+      0 2px 8px -2px rgba(197, 112, 93, 0.24),
+      0 8px 16px -4px rgba(197, 112, 93, 0.12);
   }
 
-  /* Tab trigger (pill-shaped) */
+  .clarity-btn-primary:hover {
+    background: var(--primary-hover);
+    box-shadow:
+      0 4px 12px -2px rgba(197, 112, 93, 0.32),
+      0 12px 24px -4px rgba(197, 112, 93, 0.18);
+    transform: translateY(-1px);
+  }
+
+  /* Secondary button: Muted sage tone */
+  .clarity-btn-secondary {
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    border-radius: 9999px;
+    border: none;
+    font-weight: 500;
+    transition: all 0.3s ease-out;
+  }
+
+  .clarity-btn-secondary:hover {
+    background-color: var(--secondary);
+    color: var(--on-secondary);
+  }
+
+  /* Tab trigger: Soft pill aesthetic */
   .clarity-tab-trigger {
     padding: 0.5rem 1.25rem;
     border-radius: 9999px;
     font-size: 0.875rem;
     font-weight: 500;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease-out;
     background: transparent;
-    color: var(--tertiary);
+    color: var(--on-surface-variant);
     border: none;
   }
+
+  .clarity-tab-trigger:hover {
+    background-color: var(--surface-container-high);
+  }
+
   .clarity-tab-trigger[data-state="active"] {
     background-color: var(--primary-container);
     color: var(--on-primary-container);
+    box-shadow: 0 2px 8px -2px var(--surface-tint);
+  }
+
+  /* Chips: Mood & thought tags */
+  .clarity-chip {
+    padding: 0.375rem 0.875rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    transition: all 0.3s ease-out;
+    background-color: var(--secondary-fixed);
+    color: var(--on-secondary-container);
+    border: none;
+  }
+
+  .clarity-chip:hover {
+    background-color: var(--secondary);
+    color: var(--on-secondary);
+  }
+
+  .clarity-chip[data-selected="true"] {
+    background-color: var(--primary-fixed);
+    color: var(--on-primary-container);
+  }
+
+  /* Glassmorphism: Floating elements */
+  .clarity-glass {
+    background: var(--popover);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--outline-variant);
+    box-shadow:
+      0 8px 32px -8px rgba(18, 30, 26, 0.12),
+      0 0 0 1px var(--outline-variant);
   }
 
   /* Consistency calendar day cell */
@@ -171,8 +359,13 @@
     align-items: center;
     justify-content: center;
     border-radius: 0.5rem;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease-out;
     min-height: 60px;
+    background-color: var(--surface-container);
+  }
+
+  .consistency-day:hover {
+    background-color: var(--surface-container-high);
   }
 
   @media (min-width: 768px) {

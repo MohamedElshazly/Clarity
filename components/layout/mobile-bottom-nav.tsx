@@ -17,11 +17,10 @@ export function MobileBottomNav() {
 
 	return (
 		<nav
-			className="md:hidden fixed bottom-0 inset-x-0 z-50 flex items-center justify-around px-2 py-3 border-t"
+			className="md:hidden fixed bottom-0 inset-x-0 z-50 flex items-center justify-around px-2 py-3 clarity-glass border-t"
 			style={{
-				backgroundColor: "rgba(24, 29, 27, 0.6)", // surface-container-low with 60% opacity
-				backdropFilter: "blur(20px)",
-				borderTopColor: "rgba(83, 67, 63, 0.15)", // outline-variant at 15% opacity
+				backgroundColor: "var(--popover)",
+				borderTopColor: "var(--outline)",
 			}}
 		>
 			{navItems.map(({ href, label, icon: Icon }) => {
@@ -34,17 +33,17 @@ export function MobileBottomNav() {
 					<Link
 						key={href}
 						href={href}
-						className="flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200"
+						className="flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all duration-300"
 						aria-label={label}
 						style={{
-							color: isActive ? "var(--ms-primary)" : "var(--tertiary)",
+							color: isActive ? "var(--ms-primary)" : "var(--on-surface-variant)",
 						}}
 					>
 						<Icon
 							size={22}
 							strokeWidth={isActive ? 2.5 : 2}
 							style={{
-								color: isActive ? "var(--ms-primary)" : "var(--tertiary)",
+								color: isActive ? "var(--ms-primary)" : "var(--on-surface-variant)",
 							}}
 						/>
 					</Link>
