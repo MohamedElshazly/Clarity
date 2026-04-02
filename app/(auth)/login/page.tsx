@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
 
-export default function LoginPage() {
+function LoginContent() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const searchParams = useSearchParams();
@@ -150,5 +150,29 @@ export default function LoginPage() {
 				</div>
 			</div>
 		</main>
+	);
+}
+
+export default function LoginPage() {
+	return (
+		<Suspense fallback={
+			<main
+				className="flex min-h-screen flex-col px-4 py-12"
+				style={{ backgroundColor: "var(--surface)" }}
+			>
+				<div className="mx-auto w-full max-w-170 flex flex-col min-h-full">
+					<div className="mb-24">
+						<h1
+							className="font-serif text-[18px] font-normal"
+							style={{ color: "var(--on-surface)" }}
+						>
+							Clarity
+						</h1>
+					</div>
+				</div>
+			</main>
+		}>
+			<LoginContent />
+		</Suspense>
 	);
 }
