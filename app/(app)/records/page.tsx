@@ -68,18 +68,8 @@ export default function RecordsPage() {
 		return filtered;
 	}, [records, selectedEmotion, selectedDistortion, selectedTimeframe]);
 
-	if (isLoading) {
-		return (
-			<main className="max-w-5xl mx-auto px-6 py-12">
-				<div
-					className="text-base italic"
-					style={{ color: "var(--tertiary)" }}
-				>
-					Loading your reflections...
-				</div>
-			</main>
-		);
-	}
+	// Return null during initial load - loading.tsx will handle the skeleton
+	if (isLoading) return null;
 
 	return (
 		<main className="max-w-5xl mx-auto px-6 py-12">

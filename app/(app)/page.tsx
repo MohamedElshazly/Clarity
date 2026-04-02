@@ -8,7 +8,6 @@ import {
 	Leaf,
 	ArrowRight,
 	PenLine,
-	Loader2,
 } from "lucide-react";
 import { getDistortionBySlug } from "@/lib/data/distortions";
 import { getDailyQuote } from "@/lib/data/quotes";
@@ -27,21 +26,11 @@ export default function DashboardPage() {
 		useUserWithProfile();
 	const { data: stats, isLoading: isLoadingStats } = useGetDashboardStats();
 
-	// Show loading state
-	if (isLoadingUser || isLoadingStats) {
-		return (
-			<main className="max-w-5xl mx-auto flex items-center justify-center min-h-[60vh]">
-				<Loader2
-					className="animate-spin"
-					size={32}
-					style={{ color: "var(--ms-primary)" }}
-				/>
-			</main>
-		);
-	}
-
 	// Redirect to login if not authenticated (handled by layout)
 	if (!userWithProfile) return null;
+
+	// Show loading skeleton from loading.tsx during data fetch
+	if (isLoadingUser || isLoadingStats) return null;
 
 	const profile = userWithProfile.profile;
 	const firstName = profile?.full_name?.split(" ")[0] ?? "friend";

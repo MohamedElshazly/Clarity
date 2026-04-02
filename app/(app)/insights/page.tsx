@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetInsightsData } from "@/hooks/use-insights";
 import { quotes } from "@/lib/data/quotes";
@@ -14,22 +14,16 @@ export default function InsightsPage() {
 	// Get a different quote than the dashboard (offset by 1)
 	const insightsQuote = quotes[1 % quotes.length];
 
-	if (isLoading) {
-		return (
-			<main className="max-w-6xl mx-auto flex items-center justify-center min-h-[60vh]">
-				<Loader2
-					className="animate-spin"
-					size={32}
-					style={{ color: "var(--ms-primary)" }}
-				/>
-			</main>
-		);
-	}
+	// Return null during initial load - loading.tsx will handle the skeleton
+	if (isLoading) return null;
 
 	if (!insights) return null;
 
 	const { distortionFrequency, moodShift, streakData, recordsByDay, currentMonth, currentYear } = insights;
 	const topDistortions = distortionFrequency.slice(0, 5);
+
+	// Check if there's insufficient data (<3 total entries)
+	const hasInsufficientData = streakData.totalEntries < 3;
 
 	return (
 		<main className="max-w-6xl mx-auto">
@@ -72,13 +66,29 @@ export default function InsightsPage() {
 				</Tabs>
 			</section>
 
-			{/* Two-column layout */}
-			<section className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-12">
-				{/* Left column - Cognitive Patterns (60% = 3/5) */}
-				<div
-					className="lg:col-span-3 clarity-card p-8"
+			{/* Insufficient data state */}
+			{hasInsufficientData ? (
+				<section
+					className="clarity-card p-12 text-center mb-16"
 					style={{ backgroundColor: "var(--surface-container-high)" }}
 				>
+					<p
+						className="font-serif italic text-xl leading-relaxed max-w-2xl mx-auto"
+						style={{ color: "var(--on-surface)" }}
+					>
+						Your insights will appear once you've completed a few reflections.
+						The patterns emerge over time.
+					</p>
+				</section>
+			) : (
+				<>
+					{/* Two-column layout */}
+					<section className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-12">
+						{/* Left column - Cognitive Patterns (60% = 3/5) */}
+						<div
+							className="lg:col-span-3 clarity-card p-8"
+							style={{ backgroundColor: "var(--surface-container-high)" }}
+						>
 					<div className="flex items-start justify-between mb-6">
 						<div>
 							<h2
@@ -172,68 +182,71 @@ export default function InsightsPage() {
 						</>
 					)}
 				</div>
-			</section>
+					</section>
 
-			{/* Consistency Garden */}
-			<section
-				className="clarity-card p-8 mb-16"
-				style={{ backgroundColor: "var(--surface-container-high)" }}
-			>
-				<div className="flex items-start justify-between mb-8 flex-wrap gap-4">
-					<div>
-						<h2
-							className="font-serif text-2xl mb-2"
-							style={{ color: "var(--on-surface)" }}
-						>
-							Consistency Garden
-						</h2>
-						<p className="text-sm" style={{ color: "var(--tertiary)" }}>
-							Your recording frequency throughout{" "}
-							{new Date(currentYear, currentMonth).toLocaleDateString("en-US", {
-								month: "long",
-							})}
-							.
-						</p>
-					</div>
+					{/* Consistency Garden */}
+					<section
+						className="clarity-card p-8 mb-16"
+						style={{ backgroundColor: "var(--surface-container-high)" }}
+					>
+						<div className="flex items-start justify-between mb-8 flex-wrap gap-4">
+							<div>
+								<h2
+									className="font-serif text-2xl mb-2"
+									style={{ color: "var(--on-surface)" }}
+								>
+									Consistency Garden
+								</h2>
+								<p className="text-sm" style={{ color: "var(--tertiary)" }}>
+									Your recording frequency throughout{" "}
+									{new Date(currentYear, currentMonth).toLocaleDateString("en-US", {
+										month: "long",
+									})}
+									.
+								</p>
+							</div>
 
-					<div className="flex gap-8">
-						<div>
-							<p
-								className="text-[10px] font-medium tracking-widest mb-1"
-								style={{ color: "var(--tertiary)" }}
-							>
-								CURRENT STREAK
-							</p>
-							<p
-								className="text-2xl font-bold"
-								style={{ color: "var(--ms-primary)" }}
-							>
-								{streakData.currentStreak} {streakData.currentStreak === 1 ? "Day" : "Days"}
-							</p>
+							<div className="flex gap-8">
+								<div>
+									<p
+										className="text-[10px] font-medium tracking-widest mb-1"
+										style={{ color: "var(--tertiary)" }}
+									>
+										CURRENT STREAK
+									</p>
+									<p
+										className="text-2xl font-bold"
+										style={{ color: "var(--ms-primary)" }}
+									>
+										{streakData.currentStreak} {streakData.currentStreak === 1 ? "Day" : "Days"}
+									</p>
+								</div>
+								<div>
+									<p
+										className="text-[10px] font-medium tracking-widest mb-1"
+										style={{ color: "var(--tertiary)" }}
+									>
+										TOTAL ENTRIES
+									</p>
+									<p
+										className="text-2xl font-bold"
+										style={{ color: "var(--on-surface)" }}
+									>
+										{streakData.totalEntries}
+									</p>
+								</div>
+							</div>
 						</div>
-						<div>
-							<p
-								className="text-[10px] font-medium tracking-widest mb-1"
-								style={{ color: "var(--tertiary)" }}
-							>
-								TOTAL ENTRIES
-							</p>
-							<p
-								className="text-2xl font-bold"
-								style={{ color: "var(--on-surface)" }}
-							>
-								{streakData.totalEntries}
-							</p>
-						</div>
-					</div>
-				</div>
 
-				<ConsistencyCalendar
-					recordsByDay={recordsByDay}
-					month={currentMonth}
-					year={currentYear}
-				/>
-			</section>
+						<ConsistencyCalendar
+							recordsByDay={recordsByDay}
+							month={currentMonth}
+							year={currentYear}
+						/>
+					</section>
+
+				</>
+			)}
 
 			{/* Grounding Quote */}
 			<section className="text-center py-16 mb-12">

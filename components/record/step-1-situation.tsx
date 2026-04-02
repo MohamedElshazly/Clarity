@@ -27,19 +27,34 @@ export function Step1Situation({ form, formValues }: StepProps) {
 				</p>
 			</div>
 
-			<Textarea
-				{...register("situation")}
-				placeholder="I was in the coffee shop when..."
-				className="min-h-75 text-base"
-				style={{
-					backgroundColor: "var(--surface-container-high)",
-					color: "var(--on-surface)",
-					borderColor: "transparent",
-				}}
-			/>
+			<div>
+				<label htmlFor="situation-input" className="sr-only">
+					Describe the situation
+				</label>
+				<Textarea
+					{...register("situation")}
+					id="situation-input"
+					placeholder="I was in the coffee shop when..."
+					className="min-h-75 text-base"
+					style={{
+						backgroundColor: "var(--surface-container-high)",
+						color: "var(--on-surface)",
+						borderColor: "transparent",
+					}}
+					aria-invalid={!!formState.errors.situation}
+					aria-describedby={
+						formState.errors.situation ? "situation-error" : undefined
+					}
+				/>
+			</div>
 
 			{formState.errors.situation && (
-				<p className="text-sm" style={{ color: "var(--error, #ff5449)" }}>
+				<p
+					id="situation-error"
+					className="text-sm"
+					style={{ color: "var(--error, #ff5449)" }}
+					role="alert"
+				>
 					{formState.errors.situation.message}
 				</p>
 			)}

@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 import { useUserWithProfile } from "@/hooks/use-user";
 import { Loader2 } from "lucide-react";
 
@@ -55,11 +56,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
 			{/* Main content area */}
 			<main
-				className="min-h-screen md:pl-55 pt-14 md:pt-0"
+				className="min-h-screen md:pl-55 pt-14 md:pt-0 pb-20 md:pb-0"
 				style={{ backgroundColor: "var(--surface)" }}
 			>
 				<div className="px-6 py-8 md:p-22">{children}</div>
 			</main>
+
+			{/* Mobile bottom navigation */}
+			<MobileBottomNav />
 		</div>
 	);
 }

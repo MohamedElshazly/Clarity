@@ -53,6 +53,8 @@ export function EmotionSelector({ form, formValues }: EmotionSelectorProps) {
 							key={emotion.id}
 							type="button"
 							onClick={() => handleEmotionToggle(emotion)}
+							aria-pressed={isSelected}
+							aria-label={`${emotion.label} emotion ${isSelected ? "selected" : "not selected"}`}
 							className="clarity-card p-4 flex items-center gap-3 transition-all cursor-pointer"
 							style={{
 								backgroundColor: isSelected

@@ -60,6 +60,7 @@ export function Step3AutomaticThoughts({ form, formValues }: StepProps) {
 				{/* Left Column: Textarea */}
 				<div className="space-y-2">
 					<label
+						htmlFor="automatic-thought-input"
 						className="text-sm font-medium uppercase tracking-wide"
 						style={{ color: "var(--tertiary)" }}
 					>
@@ -67,6 +68,7 @@ export function Step3AutomaticThoughts({ form, formValues }: StepProps) {
 					</label>
 					<Textarea
 						{...register("automaticThought")}
+						id="automatic-thought-input"
 						placeholder="I felt like everyone was watching me fail..."
 						className="min-h-62.5 text-base"
 						style={{
@@ -74,9 +76,20 @@ export function Step3AutomaticThoughts({ form, formValues }: StepProps) {
 							color: "var(--on-surface)",
 							borderColor: "transparent",
 						}}
+						aria-invalid={!!formState.errors.automaticThought}
+						aria-describedby={
+							formState.errors.automaticThought
+								? "automatic-thought-error"
+								: undefined
+						}
 					/>
 					{formState.errors.automaticThought && (
-						<p className="text-sm" style={{ color: "var(--error, #ff5449)" }}>
+						<p
+							id="automatic-thought-error"
+							className="text-sm"
+							style={{ color: "var(--error, #ff5449)" }}
+							role="alert"
+						>
 							{formState.errors.automaticThought.message}
 						</p>
 					)}
@@ -154,6 +167,7 @@ export function Step3AutomaticThoughts({ form, formValues }: StepProps) {
 												type="button"
 												onClick={() => handleRemoveDistortion(slug)}
 												className="p-1 rounded hover:bg-(--surface-container) transition-colors cursor-pointer"
+												aria-label={`Remove ${distortion.name}`}
 											>
 												<X size={14} style={{ color: "var(--tertiary)" }} />
 											</button>

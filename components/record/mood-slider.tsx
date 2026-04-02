@@ -19,10 +19,13 @@ export function MoodSlider({
 	leftLabel = "Low",
 	rightLabel = "High",
 }: MoodSliderProps) {
+	const sliderId = `slider-${label.toLowerCase().replace(/\s+/g, "-")}`;
+
 	return (
 		<div className="space-y-3">
 			<div className="flex items-center justify-between">
 				<label
+					htmlFor={sliderId}
 					className="text-sm font-medium"
 					style={{ color: "var(--on-surface)" }}
 				>
@@ -32,6 +35,7 @@ export function MoodSlider({
 					<span
 						className="text-sm font-mono"
 						style={{ color: "var(--ms-primary)" }}
+						aria-live="polite"
 					>
 						{value}/100
 					</span>
@@ -39,6 +43,7 @@ export function MoodSlider({
 			</div>
 
 			<Slider
+				id={sliderId}
 				value={[value]}
 				onValueChange={(val) => {
 					const newValue = Array.isArray(val) ? val[0] : val;
@@ -48,6 +53,7 @@ export function MoodSlider({
 				max={100}
 				step={1}
 				className="w-full"
+				aria-label={`${label}: ${value} out of 100`}
 			/>
 
 			<div

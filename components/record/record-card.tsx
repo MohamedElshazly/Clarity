@@ -36,7 +36,7 @@ export function RecordCard({ record }: RecordCardProps) {
 				>
 					{formattedDate}
 				</span>
-				<DistortionBadges slugs={record.distortion_slugs} linkToLibrary />
+				<DistortionBadges slugs={record.distortion_slugs} linkToLibrary={false} />
 			</div>
 
 			{/* Title */}

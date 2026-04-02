@@ -56,8 +56,11 @@ export function LibraryGrid({ distortions }: LibraryGridProps) {
 
 			{filteredDistortions.length === 0 && (
 				<div className="text-center py-12">
-					<p style={{ color: "var(--tertiary)" }}>
-						No patterns match your search.
+					<p
+						className="font-serif italic text-lg"
+						style={{ color: "var(--tertiary)" }}
+					>
+						No patterns match your search. Try a different term.
 					</p>
 				</div>
 			)}
