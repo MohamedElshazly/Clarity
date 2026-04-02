@@ -138,7 +138,7 @@ export function Sidebar({ profile }: { profile: Profile | null }) {
 				{/* Theme toggle (no-op) */}
 				<button
 					type="button"
-					className="flex items-center gap-2.5 px-2 py-1.5 text-xs w-full text-left rounded-sm transition-opacity hover:opacity-70"
+					className="flex items-center gap-2.5 px-2 py-1.5 text-xs w-full text-left rounded-sm transition-opacity hover:opacity-70 hover:cursor-pointer"
 					style={{ color: "var(--tertiary)" }}
 				>
 					<Moon size={14} />
@@ -149,7 +149,7 @@ export function Sidebar({ profile }: { profile: Profile | null }) {
 				<button
 					type="button"
 					onClick={handleLogout}
-					className="flex items-center gap-2.5 px-2 py-1.5 text-xs w-full text-left rounded-sm transition-opacity hover:opacity-70"
+					className="flex items-center gap-2.5 px-2 py-1.5 text-xs w-full text-left rounded-sm transition-opacity hover:opacity-70 hover:cursor-pointer"
 					style={{ color: "var(--tertiary)" }}
 				>
 					<LogOut size={14} />
