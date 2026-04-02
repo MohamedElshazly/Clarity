@@ -5,28 +5,15 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 import { useUserWithProfile } from "@/hooks/use-user";
-import { Loader2 } from "lucide-react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
 	const { data: userWithProfile, isLoading } = useUserWithProfile();
 
-	if (isLoading) {
-		return (
-			<div
-				className="min-h-screen flex items-center justify-center"
-				style={{ backgroundColor: "var(--surface)" }}
-			>
-				<Loader2
-					className="animate-spin"
-					size={32}
-					style={{ color: "var(--ms-primary)" }}
-				/>
-			</div>
-		);
-	}
-
 	if (!userWithProfile) {
-		redirect("/login");
+		if (!isLoading) {
+			redirect("/login");
+		}
+		return null;
 	}
 
 	const profile = userWithProfile.profile;
