@@ -148,4 +148,63 @@
     border-radius: 9999px;
     border: none;
   }
+
+  /* Tab trigger (pill-shaped) */
+  .clarity-tab-trigger {
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    background: transparent;
+    color: var(--tertiary);
+    border: none;
+  }
+  .clarity-tab-trigger[data-state="active"] {
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
+  }
+
+  /* Consistency calendar day cell */
+  .consistency-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    min-height: 60px;
+  }
+
+  @media (min-width: 768px) {
+    .consistency-day {
+      min-height: 80px;
+    }
+  }
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────── */
+@layer utilities {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes expandWidth {
+    from {
+      width: 0;
+    }
+  }
+
+  @keyframes expandHeight {
+    from {
+      height: 0;
+    }
+  }
 }
