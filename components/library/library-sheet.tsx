@@ -46,7 +46,7 @@ export function LibrarySheet({
 		<Sheet open={open} onOpenChange={onClose}>
 			<SheetContent
 				side="right"
-				className="w-full sm:max-w-150 overflow-y-auto px-10"
+				className="w-full sm:max-w-150 overflow-y-auto px-4 sm:px-10"
 				style={{ backgroundColor: "var(--surface-container)" }}
 			>
 				<SheetHeader>

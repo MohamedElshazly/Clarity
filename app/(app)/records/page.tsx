@@ -13,7 +13,7 @@ import {
 import { emotions } from "@/lib/data/emotions";
 import { distortions } from "@/lib/data/distortions";
 import type { ThoughtRecord } from "@/lib/types/database";
-import { subDays, isAfter } from "date-fns";
+import { subDays, isAfter, startOfDay } from "date-fns";
 import { RecordsSkeleton } from "@/components/skeletons/records-skeleton";
 import { startCase } from "lodash";
 
@@ -23,27 +23,29 @@ export default function RecordsPage() {
 	const [selectedDistortion, setSelectedDistortion] = useState<string>("all");
 	const [selectedTimeframe, setSelectedTimeframe] = useState<string>("all");
 
+	const hasActiveFilters =
+		selectedEmotion !== "all" ||
+		selectedDistortion !== "all" ||
+		selectedTimeframe !== "all";
+
 	// Filter records based on selected filters
 	const filteredRecords = useMemo(() => {
 		if (!records) return [];
 
 		let filtered = [...records];
 
-		// Filter by emotion
 		if (selectedEmotion !== "all") {
 			filtered = filtered.filter((record) =>
 				record.emotions.some((e) => e.id === selectedEmotion)
 			);
 		}
 
-		// Filter by distortion
 		if (selectedDistortion !== "all") {
 			filtered = filtered.filter((record) =>
 				record.distortion_slugs.includes(selectedDistortion)
 			);
 		}
 
-		// Filter by timeframe
 		if (selectedTimeframe !== "all") {
 			const now = new Date();
 			let cutoffDate: Date;
@@ -70,7 +72,41 @@ export default function RecordsPage() {
 		return filtered;
 	}, [records, selectedEmotion, selectedDistortion, selectedTimeframe]);
 
-	// Show loading skeleton during data fetch
+	// Group filtered records into time buckets
+	const groupedRecords = useMemo(() => {
+		if (filteredRecords.length === 0) return [];
+
+		const now = new Date();
+		const todayStart = startOfDay(now);
+		const weekStart = startOfDay(subDays(now, 7));
+		const monthStart = startOfDay(subDays(now, 30));
+
+		const todayRecs = filteredRecords.filter((r) =>
+			isAfter(new Date(r.created_at), todayStart)
+		);
+		const weekRecs = filteredRecords.filter(
+			(r) =>
+				!isAfter(new Date(r.created_at), todayStart) &&
+				isAfter(new Date(r.created_at), weekStart)
+		);
+		const monthRecs = filteredRecords.filter(
+			(r) =>
+				!isAfter(new Date(r.created_at), weekStart) &&
+				isAfter(new Date(r.created_at), monthStart)
+		);
+		const olderRecs = filteredRecords.filter(
+			(r) => !isAfter(new Date(r.created_at), monthStart)
+		);
+
+		const groups: { label: string; records: ThoughtRecord[] }[] = [];
+		if (todayRecs.length > 0) groups.push({ label: "Today", records: todayRecs });
+		if (weekRecs.length > 0) groups.push({ label: "This Week", records: weekRecs });
+		if (monthRecs.length > 0) groups.push({ label: "This Month", records: monthRecs });
+		if (olderRecs.length > 0) groups.push({ label: "Older", records: olderRecs });
+
+		return groups;
+	}, [filteredRecords]);
+
 	if (isLoading) return <RecordsSkeleton />;
 
 	return (
@@ -93,7 +129,7 @@ export default function RecordsPage() {
 			</div>
 
 			{/* Filter bar */}
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+			<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
 				{/* Emotions filter */}
 				<div>
 					<label
@@ -107,11 +143,8 @@ export default function RecordsPage() {
 						onValueChange={(value) => setSelectedEmotion(value || "all")}
 					>
 						<SelectTrigger
-							className="border-0"
-							style={{
-								backgroundColor: "var(--surface-container-high)",
-								color: "var(--on-surface)",
-							}}
+							className="w-full border-0"
+							style={{ color: "var(--on-surface)" }}
 						>
 							<SelectValue placeholder="All Emotions">
 								{selectedEmotion === "all"
@@ -143,11 +176,8 @@ export default function RecordsPage() {
 						onValueChange={(value) => setSelectedDistortion(value || "all")}
 					>
 						<SelectTrigger
-							className="border-0"
-							style={{
-								backgroundColor: "var(--surface-container-high)",
-								color: "var(--on-surface)",
-							}}
+							className="w-full border-0"
+							style={{ color: "var(--on-surface)" }}
 						>
 							<SelectValue placeholder="All Distortions">
 								{selectedDistortion === "all"
@@ -179,11 +209,8 @@ export default function RecordsPage() {
 						onValueChange={(value) => setSelectedTimeframe(value || "all")}
 					>
 						<SelectTrigger
-							className="border-0"
-							style={{
-								backgroundColor: "var(--surface-container-high)",
-								color: "var(--on-surface)",
-							}}
+							className="w-full border-0"
+							style={{ color: "var(--on-surface)" }}
 						>
 							<SelectValue placeholder="All Time">
 								{selectedTimeframe === "all" && "All Time"}
@@ -202,13 +229,34 @@ export default function RecordsPage() {
 				</div>
 			</div>
 
+			{/* Results count + clear filters */}
+			{records && records.length > 0 && (
+				<div className="flex items-center justify-between mb-8">
+					<span className="text-sm" style={{ color: "var(--tertiary)" }}>
+						Showing {filteredRecords.length} of {records.length}{" "}
+						{records.length === 1 ? "record" : "records"}
+					</span>
+					{hasActiveFilters && (
+						<button
+							onClick={() => {
+								setSelectedEmotion("all");
+								setSelectedDistortion("all");
+								setSelectedTimeframe("all");
+							}}
+							className="text-xs uppercase tracking-wide underline-offset-2 hover:underline transition-all"
+							style={{ color: "var(--tertiary)" }}
+						>
+							Clear filters
+						</button>
+					)}
+				</div>
+			)}
+
 			{/* Timeline list */}
 			{filteredRecords.length === 0 ? (
 				<div
 					className="p-12 rounded-lg text-center"
-					style={{
-						backgroundColor: "var(--surface-container-high)",
-					}}
+					style={{ backgroundColor: "var(--surface-container-high)" }}
 				>
 					<p
 						className="font-serif italic text-lg"
@@ -230,18 +278,35 @@ export default function RecordsPage() {
 						}}
 					/>
 
-					{/* Record cards */}
-					<div className="space-y-8">
-						{filteredRecords.map((record) => (
-							<div key={record.id} className="relative pl-8">
-								{/* Timeline dot */}
-								<div
-									className="absolute left-0 top-8 w-4 h-4 rounded-full"
-									style={{
-										backgroundColor: "var(--surface-container-highest)",
-									}}
-								/>
-								<RecordCard record={record} />
+					{/* Grouped record cards */}
+					<div className="space-y-10">
+						{groupedRecords.map((group) => (
+							<div key={group.label}>
+								{/* Group label */}
+								<div className="relative pl-8 mb-5">
+									<span
+										className="text-xs uppercase tracking-widest font-medium"
+										style={{ color: "var(--tertiary)" }}
+									>
+										{group.label}
+									</span>
+								</div>
+
+								{/* Cards within group */}
+								<div className="space-y-6">
+									{group.records.map((record) => (
+										<div key={record.id} className="relative pl-8">
+											{/* Timeline dot */}
+											<div
+												className="absolute left-0 top-8 w-4 h-4 rounded-full"
+												style={{
+													backgroundColor: "var(--surface-container-highest)",
+												}}
+											/>
+											<RecordCard record={record} />
+										</div>
+									))}
+								</div>
 							</div>
 						))}
 					</div>

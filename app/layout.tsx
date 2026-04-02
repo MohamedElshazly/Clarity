@@ -45,7 +45,7 @@ export default function RootLayout({
 					}}
 				/>
 			</head>
-			<body className="min-h-full">
+			<body className="min-h-full" suppressHydrationWarning>
 				<ThemeProvider>
 					<QueryProvider>{children}</QueryProvider>
 				</ThemeProvider>

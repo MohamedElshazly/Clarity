@@ -360,7 +360,6 @@
     justify-content: center;
     border-radius: 0.5rem;
     transition: all 0.3s ease-out;
-    min-height: 60px;
     background-color: var(--surface-container);
   }
 

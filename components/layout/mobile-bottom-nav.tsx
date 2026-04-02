@@ -17,9 +17,9 @@ export function MobileBottomNav() {
 
 	return (
 		<nav
-			className="md:hidden fixed bottom-0 inset-x-0 z-50 flex items-center justify-around px-2 py-3 clarity-glass border-t"
+			className="md:hidden fixed bottom-0 inset-x-0 z-50 flex items-center justify-around px-2 py-3 border-t"
 			style={{
-				backgroundColor: "var(--popover)",
+				backgroundColor: "var(--background)",
 				borderTopColor: "var(--outline)",
 			}}
 		>

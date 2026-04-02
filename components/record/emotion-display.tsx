@@ -45,16 +45,39 @@ interface BeforeAfterEmotionsProps {
 }
 
 export function BeforeAfterEmotions({ emotions }: BeforeAfterEmotionsProps) {
-	// Show primary emotion (first one) for before/after comparison
 	const primaryEmotion = emotions[0];
 
 	if (!primaryEmotion) return null;
 
+	const delta =
+		primaryEmotion.intensity_after != null
+			? primaryEmotion.intensity_before - primaryEmotion.intensity_after
+			: 0;
+	const improved = delta > 0;
+	const changed = delta !== 0 && primaryEmotion.intensity_after != null;
+
 	return (
-		<div className="flex items-center gap-6">
+		<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
 			<EmotionDisplay emotion={primaryEmotion} type="before" />
-			<span style={{ color: "var(--tertiary)" }}>→</span>
+			<span className="hidden sm:block" style={{ color: "var(--tertiary)" }}>
+				→
+			</span>
 			<EmotionDisplay emotion={primaryEmotion} type="after" />
+			{changed && (
+				<span
+					className="self-start sm:self-auto text-xs px-2 py-0.5 rounded-full sm:ml-2"
+					style={{
+						backgroundColor: improved
+							? "var(--secondary-container)"
+							: "var(--primary-container)",
+						color: improved
+							? "var(--on-secondary-container)"
+							: "var(--on-primary-container)",
+					}}
+				>
+					{improved ? `↓ ${delta}%` : `↑ ${Math.abs(delta)}%`}
+				</span>
+			)}
 		</div>
 	);
 }

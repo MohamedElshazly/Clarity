@@ -29,9 +29,9 @@ export function RecordCard({ record }: RecordCardProps) {
 			}}
 		>
 			{/* Top row: date and distortion badges */}
-			<div className="flex justify-between items-start mb-4">
+			<div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-start mb-4">
 				<span
-					className="text-xs uppercase tracking-wide"
+					className="text-xs uppercase tracking-wide shrink-0"
 					style={{ color: "var(--tertiary)" }}
 				>
 					{formattedDate}
@@ -60,7 +60,7 @@ export function RecordCard({ record }: RecordCardProps) {
 
 			{/* Before/After emotions */}
 			{record.emotions && record.emotions.length > 0 && (
-				<div className="pt-6" style={{ borderTop: "1px solid transparent" }}>
+				<div className="pt-4 mt-2" style={{ borderTop: "1px solid var(--outline-variant)" }}>
 					<BeforeAfterEmotions emotions={record.emotions} />
 				</div>
 			)}

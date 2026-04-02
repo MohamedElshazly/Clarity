@@ -107,9 +107,7 @@ export function Step3AutomaticThoughts({ form, formValues }: StepProps) {
 						</label>
 						{availableDistortions.length > 0 ? (
 							<Select value="" onValueChange={handleAddDistortion}>
-								<SelectTrigger
-									style={{ backgroundColor: "var(--surface-container-high)" }}
-								>
+								<SelectTrigger>
 									<SelectValue placeholder="Add a thinking pattern..." />
 								</SelectTrigger>
 								<SelectContent>

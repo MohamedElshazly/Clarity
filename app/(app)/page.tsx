@@ -167,7 +167,7 @@ export default function DashboardPage() {
 
 			{/* Section 3: Recent Reflections */}
 			<section className="mb-20">
-				<div className="flex items-end justify-between mb-6">
+				<div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-6">
 					<h2
 						className="font-serif italic text-2xl"
 						style={{ color: "var(--on-surface)" }}
