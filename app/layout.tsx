@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Noto_Serif, Plus_Jakarta_Sans } from "next/font/google";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
+import { IOSInstallPrompt } from "@/components/pwa/ios-install-prompt";
 import "./globals.css";
 
 const notoSerif = Noto_Serif({
@@ -29,10 +31,14 @@ export const metadata: Metadata = {
 	formatDetection: {
 		telephone: false,
 	},
-	themeColor: [
-		{ media: "(prefers-color-scheme: dark)", color: "#0f1413" },
-		{ media: "(prefers-color-scheme: light)", color: "#0f1413" },
-	],
+	applicationName: "Clarity",
+};
+
+export const viewport = {
+	themeColor: "#0f1413",
+	width: "device-width",
+	initialScale: 1,
+	maximumScale: 1,
 };
 
 export default function RootLayout({
@@ -47,6 +53,8 @@ export default function RootLayout({
 			suppressHydrationWarning
 		>
 			<head>
+				<meta name="mobile-web-app-capable" content="yes" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 				<link
 					rel="apple-touch-startup-image"
@@ -81,7 +89,11 @@ export default function RootLayout({
 			</head>
 			<body className="min-h-full" suppressHydrationWarning>
 				<ThemeProvider>
-					<QueryProvider>{children}</QueryProvider>
+					<QueryProvider>
+						{children}
+						<InstallPrompt />
+						<IOSInstallPrompt />
+					</QueryProvider>
 				</ThemeProvider>
 			</body>
 		</html>
