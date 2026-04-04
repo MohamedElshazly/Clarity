@@ -2,8 +2,14 @@
 
 import { UseFormReturn } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
-import { Info, Brain, Sparkles } from "lucide-react";
+import { Info, Brain, Sparkles, HelpCircle } from "lucide-react";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
+import {
+	Tooltip,
+	TooltipTrigger,
+	TooltipContent,
+	TooltipProvider,
+} from "@/components/ui/tooltip";
 
 interface StepProps {
 	form: UseFormReturn<RecordFormValues>;
@@ -16,12 +22,25 @@ export function Step4EvidenceFor({ form, formValues }: StepProps) {
 	return (
 		<div className="space-y-6">
 			<div>
-				<h1
-					className="font-serif text-4xl lg:text-5xl mb-3"
-					style={{ color: "var(--on-surface)" }}
-				>
-					Evidence <span className="font-normal">FOR.</span>
-				</h1>
+				<div className="flex items-start justify-between gap-2 mb-3">
+					<h1
+						className="font-serif text-4xl lg:text-5xl"
+						style={{ color: "var(--on-surface)" }}
+					>
+						Evidence <span className="font-normal">FOR.</span>
+					</h1>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger className="mt-2 shrink-0">
+								<HelpCircle size={16} style={{ color: "var(--tertiary)" }} />
+							</TooltipTrigger>
+							<TooltipContent side="bottom" className="max-w-72 space-y-2">
+								<p>List objective facts that seem to support your automatic thought. Be honest — this isn't about validating the thought, it's about seeing what your mind seized on.</p>
+								<p className="opacity-70">Clinical: examining supporting evidence trains you to distinguish facts from interpretations, and prepares the ground for balanced evaluation.</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+				</div>
 			</div>
 
 			{/* Main Evidence Card */}

@@ -2,8 +2,14 @@
 
 import { UseFormReturn } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
-import { Info } from "lucide-react";
+import { Info, HelpCircle } from "lucide-react";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
+import {
+	Tooltip,
+	TooltipTrigger,
+	TooltipContent,
+	TooltipProvider,
+} from "@/components/ui/tooltip";
 
 interface StepProps {
 	form: UseFormReturn<RecordFormValues>;
@@ -16,12 +22,25 @@ export function Step1Situation({ form, formValues }: StepProps) {
 	return (
 		<div className="space-y-6">
 			<div>
-				<h1
-					className="font-serif text-4xl lg:text-5xl mb-3"
-					style={{ color: "var(--on-surface)" }}
-				>
-					What happened?
-				</h1>
+				<div className="flex items-start justify-between gap-2 mb-3">
+					<h1
+						className="font-serif text-4xl lg:text-5xl"
+						style={{ color: "var(--on-surface)" }}
+					>
+						What happened?
+					</h1>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger className="mt-2 shrink-0">
+								<HelpCircle size={16} style={{ color: "var(--tertiary)" }} />
+							</TooltipTrigger>
+							<TooltipContent side="bottom" className="max-w-72 space-y-2">
+								<p>Describe the time, place, and what actually happened — facts only, no feelings yet.</p>
+								<p className="opacity-70">Clinical: the Activating Event (A) in CBT's ABC model — the observable trigger that initiates the cognitive-emotional sequence.</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+				</div>
 				<p className="text-base" style={{ color: "var(--tertiary)" }}>
 					Describe the situation briefly — where you were, what was going on.
 				</p>

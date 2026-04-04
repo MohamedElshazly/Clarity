@@ -3,9 +3,15 @@
 import { UseFormReturn } from "react-hook-form";
 import { MoodSlider } from "./mood-slider";
 import { calculateEmotionShift } from "@/lib/utils/record-helpers";
-import { TrendingDown, TrendingUp, Lock } from "lucide-react";
+import { TrendingDown, TrendingUp, Lock, HelpCircle } from "lucide-react";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
 import { Textarea } from "@/components/ui/textarea";
+import {
+	Tooltip,
+	TooltipTrigger,
+	TooltipContent,
+	TooltipProvider,
+} from "@/components/ui/tooltip";
 
 interface StepProps {
 	form: UseFormReturn<RecordFormValues>;
@@ -31,13 +37,26 @@ export function Step7Outcome({ form, formValues }: StepProps) {
 	return (
 		<div className="space-y-8">
 			<div>
-				<h1
-					className="font-serif text-4xl lg:text-5xl mb-3"
-					style={{ color: "var(--on-surface)" }}
-				>
-					How are you feeling{" "}
-					<span className="font-normal italic">now</span>?
-				</h1>
+				<div className="flex items-start justify-between gap-2 mb-3">
+					<h1
+						className="font-serif text-4xl lg:text-5xl"
+						style={{ color: "var(--on-surface)" }}
+					>
+						How are you feeling{" "}
+						<span className="font-normal italic">now</span>?
+					</h1>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger className="mt-2 shrink-0">
+								<HelpCircle size={16} style={{ color: "var(--tertiary)" }} />
+							</TooltipTrigger>
+							<TooltipContent side="bottom" className="max-w-72 space-y-2">
+								<p>Re-rate each emotion to measure the impact of restructuring your thought. Even small improvements are meaningful.</p>
+								<p className="opacity-70">Clinical: the outcome measures post-intervention emotional intensity — tracking change validates that cognitive restructuring reduces distress.</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+				</div>
 				<p className="text-base" style={{ color: "var(--tertiary)" }}>
 					After working through this record, rate your current state.
 				</p>

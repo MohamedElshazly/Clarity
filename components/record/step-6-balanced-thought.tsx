@@ -4,6 +4,13 @@ import { UseFormReturn } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { MoodSlider } from "./mood-slider";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
+import { HelpCircle } from "lucide-react";
+import {
+	Tooltip,
+	TooltipTrigger,
+	TooltipContent,
+	TooltipProvider,
+} from "@/components/ui/tooltip";
 
 interface StepProps {
 	form: UseFormReturn<RecordFormValues>;
@@ -16,16 +23,29 @@ export function Step6BalancedThought({ form, formValues }: StepProps) {
 	return (
 		<div className="space-y-6">
 			<div>
-				<h1
-					className="font-serif text-3xl lg:text-4xl mb-3 leading-snug"
-					style={{ color: "var(--on-surface)" }}
-				>
-					Given all the evidence, what's a{" "}
-					<span className="italic" style={{ color: "var(--ms-primary)" }}>
-						more realistic
-					</span>{" "}
-					and helpful way to see this situation?
-				</h1>
+				<div className="flex items-start justify-between gap-2">
+					<h1
+						className="font-serif text-3xl lg:text-4xl leading-snug"
+						style={{ color: "var(--on-surface)" }}
+					>
+						Given all the evidence, what's a{" "}
+						<span className="italic" style={{ color: "var(--ms-primary)" }}>
+							more realistic
+						</span>{" "}
+						and helpful way to see this situation?
+					</h1>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger className="mt-2 shrink-0">
+								<HelpCircle size={16} style={{ color: "var(--tertiary)" }} />
+							</TooltipTrigger>
+							<TooltipContent side="bottom" className="max-w-72 space-y-2">
+								<p>Synthesize the evidence into a new thought that's both realistic and compassionate. This isn't forced positivity — it's a fair conclusion.</p>
+								<p className="opacity-70">Clinical: the restructured cognition (new B in ABC) — a rational response that integrates evidence and softens cognitive distortions, reducing emotional distress.</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+				</div>
 			</div>
 
 			{/* Card 1: Balanced Perspective */}

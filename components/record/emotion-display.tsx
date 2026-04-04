@@ -45,7 +45,10 @@ interface BeforeAfterEmotionsProps {
 }
 
 export function BeforeAfterEmotions({ emotions }: BeforeAfterEmotionsProps) {
-	const primaryEmotion = emotions[0];
+	// Find the emotion with the strongest initial intensity
+	const primaryEmotion = emotions.reduce((strongest, current) =>
+		current.intensity_before > strongest.intensity_before ? current : strongest
+	);
 
 	if (!primaryEmotion) return null;
 
