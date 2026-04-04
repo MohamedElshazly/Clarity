@@ -129,6 +129,15 @@ export function Step3AutomaticThoughts({ form, formValues }: StepProps) {
 								All patterns selected
 							</div>
 						)}
+						{formState.errors.distortionSlugs && (
+							<p
+								className="text-sm mt-1"
+								style={{ color: "var(--error, #ff5449)" }}
+								role="alert"
+							>
+								{formState.errors.distortionSlugs.message}
+							</p>
+						)}
 					</div>
 
 					<Button

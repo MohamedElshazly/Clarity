@@ -19,7 +19,7 @@ export const formSchema = z.object({
   automaticThought: z
     .string()
     .min(5, "Please describe your automatic thought (at least 5 characters)"),
-  distortionSlugs: z.array(z.string()),
+  distortionSlugs: z.array(z.string()).min(1, "Please select at least one cognitive distortion"),
 
   // Steps 4-7
   evidenceFor: z
@@ -106,7 +106,10 @@ export function validateCurrentStep(
     case 2:
       return (formValues.selectedEmotions?.length || 0) > 0;
     case 3:
-      return (formValues.automaticThought?.trim().length || 0) > 5;
+      return (
+        (formValues.automaticThought?.trim().length || 0) > 5 &&
+        (formValues.distortionSlugs?.length || 0) > 0
+      );
     case 4:
       return (formValues.evidenceFor?.trim().length || 0) > 5;
     case 5:
