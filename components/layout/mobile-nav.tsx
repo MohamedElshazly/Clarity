@@ -125,14 +125,6 @@ export function MobileNav({ profile }: { profile: Profile | null }) {
 
 				{/* Bottom section */}
 				<div className="px-3 pb-8 flex flex-col gap-2">
-					<Link
-						href="/record/new"
-						onClick={handleNavClick}
-						className="clarity-btn-primary flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium mb-2"
-					>
-						<Plus size={15} />
-						Start New Session
-					</Link>
 
 					{profile && (
 						<div className="flex items-center gap-2.5 px-2 py-1.5">

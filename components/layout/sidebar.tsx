@@ -109,14 +109,6 @@ export function Sidebar({ profile }: { profile: Profile | null }) {
 
 			{/* Bottom section */}
 			<div className="px-3 pb-8 flex flex-col gap-2">
-				{/* Start New Session */}
-				<Link
-					href="/record/new"
-					className="clarity-btn-primary flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium mb-2"
-				>
-					<Plus size={15} />
-					Add new record
-				</Link>
 
 				{/* User info */}
 				{profile && (
