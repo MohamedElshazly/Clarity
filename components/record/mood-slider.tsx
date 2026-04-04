@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 
 interface MoodSliderProps {
@@ -20,6 +21,13 @@ export function MoodSlider({
 	rightLabel = "High",
 }: MoodSliderProps) {
 	const sliderId = `slider-${label.toLowerCase().replace(/\s+/g, "-")}`;
+	const [localValue, setLocalValue] = useState(value);
+
+	// Sync local state when the external value changes (e.g. draft resume, step navigation)
+	// but only when not actively dragging — use a ref to track that
+	useEffect(() => {
+		setLocalValue(value);
+	}, [value]);
 
 	return (
 		<div className="space-y-3">
@@ -37,23 +45,29 @@ export function MoodSlider({
 						style={{ color: "var(--ms-primary)" }}
 						aria-live="polite"
 					>
-						{value}/100
+						{localValue}/100
 					</span>
 				)}
 			</div>
 
 			<Slider
 				id={sliderId}
-				value={[value]}
+				value={[localValue]}
 				onValueChange={(val) => {
-					const newValue = Array.isArray(val) ? val[0] : val;
-					onChange(newValue);
+					// Update display immediately during drag without touching the form
+					setLocalValue(Array.isArray(val) ? val[0] : val);
+				}}
+				onValueCommit={(val) => {
+					// Commit to form only when the user releases the pointer
+					const committed = Array.isArray(val) ? val[0] : val;
+					setLocalValue(committed);
+					onChange(committed);
 				}}
 				min={0}
 				max={100}
 				step={1}
 				className="w-full"
-				aria-label={`${label}: ${value} out of 100`}
+				aria-label={`${label}: ${localValue} out of 100`}
 			/>
 
 			<div

@@ -7,6 +7,7 @@ interface SliderProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 
 	value?: number[]
 	defaultValue?: number[]
 	onValueChange?: (value: number[]) => void
+	onValueCommit?: (value: number[]) => void
 	min?: number
 	max?: number
 	step?: number
@@ -17,6 +18,7 @@ function Slider({
 	value,
 	defaultValue,
 	onValueChange,
+	onValueCommit,
 	min = 0,
 	max = 100,
 	step = 1,
@@ -25,6 +27,7 @@ function Slider({
 	const [internalValue, setInternalValue] = React.useState(
 		(value?.[0] ?? defaultValue?.[0] ?? min)
 	)
+	const isDragging = React.useRef(false)
 
 	const currentValue = value?.[0] ?? internalValue
 
@@ -32,6 +35,24 @@ function Slider({
 		const newValue = Number(e.target.value)
 		setInternalValue(newValue)
 		onValueChange?.([newValue])
+	}
+
+	const handlePointerDown = () => {
+		isDragging.current = true
+	}
+
+	const handlePointerUp = () => {
+		if (isDragging.current) {
+			onValueCommit?.([currentValue])
+			isDragging.current = false
+		}
+	}
+
+	const handlePointerCancel = () => {
+		if (isDragging.current) {
+			onValueCommit?.([currentValue])
+			isDragging.current = false
+		}
 	}
 
 	const percentage = ((currentValue - min) / (max - min)) * 100
@@ -48,6 +69,9 @@ function Slider({
 				type="range"
 				value={currentValue}
 				onChange={handleChange}
+				onPointerDown={handlePointerDown}
+				onPointerUp={handlePointerUp}
+				onPointerCancel={handlePointerCancel}
 				min={min}
 				max={max}
 				step={step}
