@@ -23,15 +23,14 @@ import { useGetDashboardStats } from "@/hooks/use-dashboard";
 import { DashboardSkeleton } from "@/components/skeletons/dashboard-skeleton";
 
 export default function DashboardPage() {
-	const { data: userWithProfile, isLoading: isLoadingUser } =
+	const { data: userWithProfile, isPending: isLoadingUser } =
 		useUserWithProfile();
-	const { data: stats, isLoading: isLoadingStats } = useGetDashboardStats();
+	const { data: stats, isPending: isLoadingStats } = useGetDashboardStats();
+
+	if (isLoadingUser || isLoadingStats) return <DashboardSkeleton />;
 
 	// Redirect to login if not authenticated (handled by layout)
 	if (!userWithProfile) return null;
-
-	// Show loading skeleton during data fetch
-	if (isLoadingUser || isLoadingStats) return <DashboardSkeleton />;
 
 	const profile = userWithProfile.profile;
 	const firstName = profile?.full_name?.split(" ")[0] ?? "friend";

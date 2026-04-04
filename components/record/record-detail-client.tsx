@@ -28,7 +28,7 @@ interface RecordDetailClientProps {
 export function RecordDetailClient({ recordId }: RecordDetailClientProps) {
 	const router = useRouter();
 	const { data: user } = useUser();
-	const { data: record, isLoading } = useRecord(recordId);
+	const { data: record, isPending: isLoading } = useRecord(recordId);
 	const deleteRecord = useDeleteRecord();
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [activeTab, setActiveTab] = useState<"view" | "edit">("view");

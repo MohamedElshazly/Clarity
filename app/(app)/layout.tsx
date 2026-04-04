@@ -7,7 +7,7 @@ import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 import { useUserWithProfile } from "@/hooks/use-user";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-	const { data: userWithProfile, isLoading } = useUserWithProfile();
+	const { data: userWithProfile, isPending: isLoading } = useUserWithProfile();
 
 	if (!userWithProfile) {
 		if (!isLoading) {

@@ -14,7 +14,7 @@ export default function DistortionPage() {
 	const slug = params.slug as string;
 	const distortion = getDistortionBySlug(slug);
 
-	const { data: relatedRecords, isLoading } = useGetRecordsByDistortion(slug);
+	const { data: relatedRecords, isPending: isLoading } = useGetRecordsByDistortion(slug);
 
 	if (!distortion) notFound();
 

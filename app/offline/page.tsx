@@ -29,7 +29,7 @@ export default function OfflinePage() {
 					</h2>
 
 					{/* Body text */}
-					<p className="text-[15px] text-tertiary max-w-[400px] leading-relaxed">
+					<p className="text-[15px] text-tertiary max-w-100 leading-relaxed">
 						Your records are waiting. Come back when you're connected and
 						everything will be here.
 					</p>

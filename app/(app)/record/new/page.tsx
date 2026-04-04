@@ -51,7 +51,7 @@ export default function NewRecordPage() {
 	const createDraft = useCreateDraft();
 	const updateDraft = useUpdateDraft();
 	const submitRecord = useSubmitRecord();
-	const { data: activeDraft, isLoading: isDraftLoading } = useGetActiveDraft();
+	const { data: activeDraft, isPending: isDraftLoading } = useGetActiveDraft();
 	const discardDraft = useDiscardDraft();
 
 	// Watch form values for auto-save (more efficient than form.watch())

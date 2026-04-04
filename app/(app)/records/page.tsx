@@ -18,7 +18,7 @@ import { RecordsSkeleton } from "@/components/skeletons/records-skeleton";
 import { startCase } from "lodash";
 
 export default function RecordsPage() {
-	const { data: records, isLoading } = useUserRecords();
+	const { data: records, isPending: isLoading } = useUserRecords();
 	const [selectedEmotion, setSelectedEmotion] = useState<string>("all");
 	const [selectedDistortion, setSelectedDistortion] = useState<string>("all");
 	const [selectedTimeframe, setSelectedTimeframe] = useState<string>("all");

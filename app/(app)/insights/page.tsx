@@ -10,7 +10,7 @@ import { InsightsSkeleton } from "@/components/skeletons/insights-skeleton";
 
 export default function InsightsPage() {
 	const [period, setPeriod] = useState<Period>("monthly");
-	const { data: insights, isLoading } = useGetInsightsData(period);
+	const { data: insights, isPending: isLoading } = useGetInsightsData(period);
 
 	// Get a different quote than the dashboard (offset by 1)
 	const insightsQuote = quotes[1 % quotes.length];
