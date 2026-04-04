@@ -7,25 +7,39 @@ export function IOSInstallPrompt() {
 	const [showPrompt, setShowPrompt] = useState(false);
 
 	useEffect(() => {
+		console.log("[iOS PWA Install] Component mounted");
+
 		// Check if user has already dismissed the prompt
 		const dismissed = localStorage.getItem("ios-pwa-install-dismissed");
-		if (dismissed === "true") return;
+		if (dismissed === "true") {
+			console.log("[iOS PWA Install] Previously dismissed");
+			return;
+		}
 
 		// Check if already installed
-		if (window.matchMedia("(display-mode: standalone)").matches) return;
+		if (window.matchMedia("(display-mode: standalone)").matches) {
+			console.log("[iOS PWA Install] Already installed");
+			return;
+		}
 
 		// Detect iOS Safari
 		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 		const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
+		console.log("[iOS PWA Install] isIOS:", isIOS, "isSafari:", isSafari);
+
 		if (isIOS && isSafari) {
 			// Show prompt after a short delay
-			const timer = setTimeout(() => setShowPrompt(true), 3000);
+			const timer = setTimeout(() => {
+				setShowPrompt(true);
+				console.log("[iOS PWA Install] Showing prompt");
+			}, 3000);
 			return () => clearTimeout(timer);
 		}
 	}, []);
 
 	const handleDismiss = () => {
+		console.log("[iOS PWA Install] User dismissed prompt");
 		setShowPrompt(false);
 		localStorage.setItem("ios-pwa-install-dismissed", "true");
 	};

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle2, XCircle, AlertCircle } from "lucide-react";
+import { CheckCircle2, XCircle, AlertCircle, Download } from "lucide-react";
 
 interface PWAStatus {
 	manifestLoaded: boolean;
@@ -12,6 +12,16 @@ interface PWAStatus {
 	swUrl: string | null;
 	displayMode: string;
 	userAgent: string;
+	canInstall: boolean;
+	isIOS: boolean;
+	isSafari: boolean;
+	isChrome: boolean;
+	isAndroid: boolean;
+}
+
+interface BeforeInstallPromptEvent extends Event {
+	prompt: () => Promise<void>;
+	userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
 export default function PWAStatusPage() {
@@ -24,10 +34,24 @@ export default function PWAStatusPage() {
 		swUrl: null,
 		displayMode: "browser",
 		userAgent: "",
+		canInstall: false,
+		isIOS: false,
+		isSafari: false,
+		isChrome: false,
+		isAndroid: false,
 	});
+
+	const [deferredPrompt, setDeferredPrompt] =
+		useState<BeforeInstallPromptEvent | null>(null);
 
 	useEffect(() => {
 		const checkPWAStatus = async () => {
+			const ua = navigator.userAgent;
+			const isIOS = /iPad|iPhone|iPod/.test(ua);
+			const isAndroid = /android/i.test(ua);
+			const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+			const isChrome = /chrome/i.test(ua) && !/edge/i.test(ua);
+
 			// Check manifest
 			const manifestLink = document.querySelector(
 				'link[rel="manifest"]'
@@ -75,11 +99,50 @@ export default function PWAStatusPage() {
 				swUrl: swRegistration?.active?.scriptURL || null,
 				displayMode,
 				userAgent: navigator.userAgent,
+				canInstall: false,
+				isIOS,
+				isSafari,
+				isChrome,
+				isAndroid,
 			});
 		};
 
 		checkPWAStatus();
+
+		// Listen for beforeinstallprompt
+		const handler = (e: Event) => {
+			console.log("[PWA Status] beforeinstallprompt fired");
+			e.preventDefault();
+			setDeferredPrompt(e as BeforeInstallPromptEvent);
+			setStatus((prev) => ({ ...prev, canInstall: true }));
+		};
+
+		window.addEventListener("beforeinstallprompt", handler);
+
+		return () => window.removeEventListener("beforeinstallprompt", handler);
 	}, []);
+
+	const handleInstall = async () => {
+		if (!deferredPrompt) {
+			alert("Install prompt not available. Try using your browser menu.");
+			return;
+		}
+
+		deferredPrompt.prompt();
+		const { outcome } = await deferredPrompt.userChoice;
+		console.log("[PWA Status] User choice:", outcome);
+
+		if (outcome === "accepted") {
+			setDeferredPrompt(null);
+			setStatus((prev) => ({ ...prev, canInstall: false }));
+		}
+	};
+
+	const clearLocalStorage = () => {
+		localStorage.removeItem("pwa-install-dismissed");
+		localStorage.removeItem("ios-pwa-install-dismissed");
+		alert("Local storage cleared! The install prompts should appear again.");
+	};
 
 	const StatusRow = ({
 		label,
@@ -188,6 +251,31 @@ export default function PWAStatusPage() {
 						value={status.isStandalone ? "Yes" : "No"}
 						status={status.isStandalone ? "success" : "warning"}
 					/>
+
+					<StatusRow
+						label="Can Show Install Prompt"
+						value={status.canInstall ? "Yes (event fired!)" : "No"}
+						status={status.canInstall ? "success" : "warning"}
+					/>
+
+					<div className="flex items-start gap-3 py-3 border-b border-outline-variant/10">
+						<div className="mt-0.5">
+							{status.isIOS ? (
+								<AlertCircle className="w-5 h-5 text-yellow-500" />
+							) : (
+								<CheckCircle2 className="w-5 h-5 text-green-500" />
+							)}
+						</div>
+						<div className="flex-1">
+							<div className="text-sm font-medium text-on-surface">Platform</div>
+							<div className="text-sm text-tertiary mt-0.5">
+								iOS: {status.isIOS ? "Yes" : "No"} | Android:{" "}
+								{status.isAndroid ? "Yes" : "No"} | Safari:{" "}
+								{status.isSafari ? "Yes" : "No"} | Chrome:{" "}
+								{status.isChrome ? "Yes" : "No"}
+							</div>
+						</div>
+					</div>
 				</div>
 
 				{/* Browser Info */}
@@ -198,6 +286,79 @@ export default function PWAStatusPage() {
 					<div className="text-sm text-tertiary break-all">
 						{status.userAgent}
 					</div>
+				</div>
+
+				{/* Manual Install Button */}
+				<div className="bg-surface-container-high rounded-lg p-6 mb-6">
+					<h2 className="font-serif text-lg font-semibold text-on-surface mb-4">
+						Manual Installation
+					</h2>
+
+					{status.isStandalone ? (
+						<div className="flex items-center gap-2 text-sm text-green-500">
+							<CheckCircle2 className="w-4 h-4" />
+							Already installed as PWA!
+						</div>
+					) : (
+						<div className="space-y-3">
+							{status.canInstall ? (
+								<button
+									onClick={handleInstall}
+									className="w-full flex items-center justify-center gap-2 rounded-full bg-primary-container px-6 py-3 text-sm font-medium text-on-primary-container transition-opacity hover:opacity-90"
+								>
+									<Download className="w-4 h-4" />
+									Install Clarity Now
+								</button>
+							) : (
+								<div className="p-4 rounded-lg bg-surface-container text-sm text-tertiary">
+									{status.isIOS ? (
+										<>
+											<p className="mb-2">
+												iOS doesn&apos;t support automatic install prompts.
+											</p>
+											<p>
+												Tap the Share button{" "}
+												<span className="inline-block">↑</span> and select
+												&quot;Add to Home Screen&quot;
+											</p>
+										</>
+									) : status.isChrome && status.isAndroid ? (
+										<>
+											<p className="mb-2">
+												No install prompt available yet. This could mean:
+											</p>
+											<ul className="list-disc list-inside space-y-1 ml-2">
+												<li>You need to interact more with the site first</li>
+												<li>
+													The browser hasn&apos;t checked PWA criteria yet
+												</li>
+												<li>Check your browser menu for &quot;Install app&quot;</li>
+											</ul>
+										</>
+									) : (
+										<>
+											<p>
+												Use your browser&apos;s menu to install this app. Look
+												for:
+											</p>
+											<ul className="list-disc list-inside space-y-1 ml-2 mt-2">
+												<li>&quot;Install app&quot;</li>
+												<li>&quot;Add to Home screen&quot;</li>
+												<li>&quot;Create shortcut&quot;</li>
+											</ul>
+										</>
+									)}
+								</div>
+							)}
+
+							<button
+								onClick={clearLocalStorage}
+								className="w-full rounded-full border border-outline-variant/20 px-6 py-2 text-sm font-medium text-tertiary transition-opacity hover:opacity-90"
+							>
+								Clear Dismissed Prompts
+							</button>
+						</div>
+					)}
 				</div>
 
 				{/* Installation Instructions */}
