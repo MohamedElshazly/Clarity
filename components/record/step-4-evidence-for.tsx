@@ -58,14 +58,14 @@ export function Step4EvidenceFor({ form, formValues }: StepProps) {
 					</p>
 				)}
 
-				<div className="flex items-start gap-2">
+				<div className="flex items-center gap-2">
 					<Info
 						size={16}
 						style={{ color: "var(--tertiary)", marginTop: 2 }}
 					/>
 					<p className="text-xs" style={{ color: "var(--tertiary)" }}>
-						Evidence is verifiable information that would be accepted in a court
-						of law. Avoid interpretations or emotional adjectives.
+						Try to stick to things you could point to or observe — rather than
+						how they made you feel.
 					</p>
 				</div>
 			</div>

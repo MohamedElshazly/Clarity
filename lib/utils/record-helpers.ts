@@ -151,8 +151,12 @@ export function calculateEmotionShift(
     initialIntensities.reduce((sum, val) => sum + val, 0) / initialIntensities.length;
 
   // Calculate average outcome intensity for selected emotions
+  // Fall back to the initial intensity if the user hasn't adjusted the outcome slider yet
   const outcomeIntensities = formValues.selectedEmotions.map(
-    (emotion) => formValues.outcomeIntensities?.[emotion.id] || 50
+    (emotion) =>
+      formValues.outcomeIntensities?.[emotion.id] ??
+      formValues.emotionIntensities?.[emotion.id] ??
+      50
   );
   const avgOutcome =
     outcomeIntensities.reduce((sum, val) => sum + val, 0) / outcomeIntensities.length;

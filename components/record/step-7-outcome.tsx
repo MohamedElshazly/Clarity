@@ -59,32 +59,84 @@ export function Step7Outcome({ form, formValues }: StepProps) {
 
 			{/* Shift Summary Card */}
 			<div
-				className="clarity-card p-6 flex items-center gap-4"
+				className="clarity-card p-5 space-y-4"
 				style={{ backgroundColor: "var(--surface-container-high)" }}
 			>
-				<div
-					className="p-3 rounded-lg"
-					style={{ backgroundColor: "var(--surface-container-highest)" }}
-				>
-					{isPositiveShift ? (
-						<TrendingUp size={24} style={{ color: "var(--ms-primary)" }} />
-					) : (
-						<TrendingDown size={24} style={{ color: "var(--tertiary)" }} />
-					)}
-				</div>
-				<div className="flex-1">
-					<p className="text-sm font-medium mb-1" style={{ color: "var(--on-surface)" }}>
-						{isPositiveShift
-							? `Your emotional intensity decreased by ${Math.abs(shift.improvement)} points`
-							: shift.improvement < 0
-								? `Your emotional intensity increased by ${Math.abs(shift.improvement)} points`
-								: `No change in emotional intensity`}
-					</p>
-					<p className="text-xs" style={{ color: "var(--tertiary)" }}>
-						Initial intensity: {shift.averageInitialIntensity} → Current:{" "}
-						{shift.averageOutcomeIntensity}
+				{/* Header */}
+				<div className="flex items-center gap-3">
+					<div
+						className="p-2 rounded-lg"
+						style={{ backgroundColor: "var(--surface-container-highest)" }}
+					>
+						{isPositiveShift ? (
+							<TrendingUp size={18} style={{ color: "var(--ms-primary)" }} />
+						) : (
+							<TrendingDown size={18} style={{ color: "var(--tertiary)" }} />
+						)}
+					</div>
+					<p className="text-sm font-medium" style={{ color: "var(--on-surface)" }}>
+						Emotional shift
 					</p>
 				</div>
+
+				{/* Per-emotion rows */}
+				<div className="space-y-2">
+					{selectedEmotions.map((emotion) => {
+						const before = emotionIntensities[emotion.id] ?? 50;
+						const after = outcomeIntensities[emotion.id] ?? before;
+						const delta = after - before;
+						const isImproved = delta < 0;
+						return (
+							<div key={emotion.id} className="flex items-center justify-between text-sm">
+								<span style={{ color: "var(--on-surface)" }}>{emotion.label}</span>
+								<span className="font-mono text-xs flex items-center gap-2">
+									<span style={{ color: "var(--tertiary)" }}>
+										{before} → {after}
+									</span>
+									{delta !== 0 && (
+										<span
+											style={{
+												color: isImproved ? "var(--ms-primary)" : "var(--tertiary)",
+											}}
+										>
+											{isImproved ? "▼" : "▲"} {Math.abs(delta)}
+										</span>
+									)}
+								</span>
+							</div>
+						);
+					})}
+				</div>
+
+				{/* Overall average row */}
+				{selectedEmotions.length > 1 && (
+					<>
+						<div
+							className="border-t pt-3"
+							style={{ borderColor: "var(--surface-container-highest)" }}
+						>
+							<div className="flex items-center justify-between text-xs">
+								<span style={{ color: "var(--tertiary)" }}>Average</span>
+								<span className="font-mono flex items-center gap-2">
+									<span style={{ color: "var(--tertiary)" }}>
+										{shift.averageInitialIntensity} → {shift.averageOutcomeIntensity}
+									</span>
+									{shift.improvement !== 0 && (
+										<span
+											style={{
+												color:
+													shift.improvement > 0 ? "var(--ms-primary)" : "var(--tertiary)",
+											}}
+										>
+											{shift.improvement > 0 ? "▼" : "▲"}{" "}
+											{Math.abs(shift.improvement)} pts overall
+										</span>
+									)}
+								</span>
+							</div>
+						</div>
+					</>
+				)}
 			</div>
 
 			{/* Reflection Textarea (Optional) */}

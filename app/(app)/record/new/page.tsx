@@ -95,7 +95,9 @@ export default function NewRecordPage() {
 			balancedThought: activeDraft.balanced_thought ?? "",
 			confidenceLevel: activeDraft.confidence_level ?? 0,
 			outcomeIntensities: Object.fromEntries(
-				emotions.map((e) => [e.id, e.intensity_after ?? 50])
+				emotions
+					.filter((e) => e.intensity_after != null)
+					.map((e) => [e.id, e.intensity_after!])
 			),
 			reflection: activeDraft.reflection ?? "",
 		});
