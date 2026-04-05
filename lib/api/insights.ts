@@ -36,10 +36,9 @@ export async function getDistortionFrequency(
 
 	const query = supabase
 		.from("thought_records")
-		.select("distortion_slug")
+		.select("distortion_slugs")
 		.eq("user_id", userId)
-		.eq("is_draft", false)
-		.not("distortion_slug", "is", null);
+		.eq("is_draft", false);
 
 	if (dateFilter) {
 		query.gte("created_at", dateFilter.toISOString());
@@ -50,15 +49,16 @@ export async function getDistortionFrequency(
 	if (error) throw error;
 	if (!data || data.length === 0) return [];
 
-	// Count frequency of each distortion
+	// Count frequency of each distortion across all records
 	const frequency: Record<string, number> = {};
 	let total = 0;
 
 	for (const record of data) {
-		if (record.distortion_slug) {
-			frequency[record.distortion_slug] =
-				(frequency[record.distortion_slug] ?? 0) + 1;
-			total++;
+		if (record.distortion_slugs && Array.isArray(record.distortion_slugs)) {
+			for (const slug of record.distortion_slugs) {
+				frequency[slug] = (frequency[slug] ?? 0) + 1;
+				total++;
+			}
 		}
 	}
 

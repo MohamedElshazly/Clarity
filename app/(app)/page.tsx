@@ -265,7 +265,8 @@ export default function DashboardPage() {
 															color: "var(--on-surface)",
 														}}
 													>
-														After reflection
+														{primaryEmotion.label} (
+														{primaryEmotion.intensity_after}/100)
 													</span>
 												</div>
 											)}
