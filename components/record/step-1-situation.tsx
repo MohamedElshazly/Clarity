@@ -4,6 +4,7 @@ import { UseFormReturn } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { Info, HelpCircle } from "lucide-react";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
+import { MicButton } from "@/components/shared/mic-button";
 import {
 	Tooltip,
 	TooltipTrigger,
@@ -65,6 +66,12 @@ export function Step1Situation({ form, formValues }: StepProps) {
 						formState.errors.situation ? "situation-error" : undefined
 					}
 				/>
+				<div style={{ display: "flex", justifyContent: "flex-end", marginTop: 6 }}>
+					<MicButton
+						fieldValue={form.getValues("situation") ?? ""}
+						onTranscript={(text) => form.setValue("situation", text)}
+					/>
+				</div>
 			</div>
 
 			{formState.errors.situation && (

@@ -4,6 +4,7 @@ import { UseFormReturn } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { Info, HelpCircle } from "lucide-react";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
+import { MicButton } from "@/components/shared/mic-button";
 import {
 	Tooltip,
 	TooltipTrigger,
@@ -70,6 +71,12 @@ export function Step5EvidenceAgainst({ form, formValues }: StepProps) {
 						borderColor: "transparent",
 					}}
 				/>
+				<div style={{ display: "flex", justifyContent: "flex-end", marginTop: 6 }}>
+					<MicButton
+						fieldValue={form.getValues("evidenceAgainst") ?? ""}
+						onTranscript={(text) => form.setValue("evidenceAgainst", text)}
+					/>
+				</div>
 
 				{formState.errors.evidenceAgainst && (
 					<p className="text-sm" style={{ color: "var(--error, #ff5449)" }}>

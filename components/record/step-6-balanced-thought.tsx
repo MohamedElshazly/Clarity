@@ -4,6 +4,7 @@ import { UseFormReturn } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { MoodSlider } from "./mood-slider";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
+import { MicButton } from "@/components/shared/mic-button";
 import { HelpCircle } from "lucide-react";
 import {
 	Tooltip,
@@ -78,6 +79,12 @@ export function Step6BalancedThought({ form, formValues }: StepProps) {
 						borderColor: "transparent",
 					}}
 				/>
+				<div style={{ display: "flex", justifyContent: "flex-end", marginTop: 6 }}>
+					<MicButton
+						fieldValue={form.getValues("balancedThought") ?? ""}
+						onTranscript={(text) => form.setValue("balancedThought", text)}
+					/>
+				</div>
 
 				{formState.errors.balancedThought && (
 					<p className="text-sm" style={{ color: "var(--error, #ff5449)" }}>

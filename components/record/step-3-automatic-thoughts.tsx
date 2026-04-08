@@ -14,6 +14,7 @@ import { LibrarySheet } from "@/components/library/library-sheet";
 import { distortions, getDistortionBySlug } from "@/lib/data/distortions";
 import { Sparkles, Loader2, X, HelpCircle } from "lucide-react";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
+import { MicButton } from "@/components/shared/mic-button";
 import { startCase } from "lodash";
 import { useClassifyDistortion } from "@/hooks/use-classify-distortion";
 import {
@@ -130,6 +131,12 @@ export function Step3AutomaticThoughts({ form, formValues }: StepProps) {
 							{thoughtValue.length} characters
 						</span>
 					)}
+				</div>
+				<div style={{ display: "flex", justifyContent: "flex-end", marginTop: 6 }}>
+					<MicButton
+						fieldValue={form.getValues("automaticThought") ?? ""}
+						onTranscript={(text) => form.setValue("automaticThought", text)}
+					/>
 				</div>
 				{formState.errors.automaticThought && (
 					<p
