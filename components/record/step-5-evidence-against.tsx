@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
-import { Info, HelpCircle } from "lucide-react";
+import { Info, HelpCircle, ChevronDown, ChevronUp } from "lucide-react";
 import type { RecordFormValues } from "@/lib/utils/record-helpers";
 import { MicButton } from "@/components/shared/mic-button";
 import {
@@ -19,9 +20,39 @@ interface StepProps {
 
 export function Step5EvidenceAgainst({ form, formValues }: StepProps) {
 	const { register, formState } = form;
+	const [thoughtExpanded, setThoughtExpanded] = useState(false);
+	const automaticThought = formValues.automaticThought;
 
 	return (
 		<div className="space-y-6">
+			{automaticThought && (
+				<button
+					type="button"
+					onClick={() => setThoughtExpanded((v) => !v)}
+					className="w-full text-left clarity-card px-4 py-3 space-y-2"
+					style={{ backgroundColor: "var(--surface-container-high)" }}
+				>
+					<div className="flex items-center justify-between gap-2">
+						<span
+							className="text-xs font-medium uppercase tracking-widest"
+							style={{ color: "var(--tertiary)" }}
+						>
+							Your automatic thought
+						</span>
+						{thoughtExpanded ? (
+							<ChevronUp size={14} style={{ color: "var(--tertiary)" }} />
+						) : (
+							<ChevronDown size={14} style={{ color: "var(--tertiary)" }} />
+						)}
+					</div>
+					<p
+						className={`text-sm leading-relaxed ${!thoughtExpanded ? "line-clamp-1" : ""}`}
+						style={{ color: "var(--on-surface)" }}
+					>
+						{automaticThought}
+					</p>
+				</button>
+			)}
 			<div>
 				<div className="flex items-start justify-between gap-2 mb-3">
 					<h1
